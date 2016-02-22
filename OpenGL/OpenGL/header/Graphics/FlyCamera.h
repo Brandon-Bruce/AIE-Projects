@@ -9,7 +9,7 @@ public:
 	FlyCamera();
 	~FlyCamera();
 
-	void Update(float deltaTime);
+	void Update(double deltaTime);
 	void SetSpeed(float speed);
 
 private:

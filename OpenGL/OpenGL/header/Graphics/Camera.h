@@ -9,7 +9,7 @@ class Camera
 public:
 	Camera();
 	~Camera();
-	virtual void Update(float deltaTime) = 0;
+	virtual void Update(double deltaTime) = 0;
 	void SetPerspective(float fieldOfView, float aspectRatio, float near, float far);
 	void SetLookAt(glm::vec3 from, glm::vec3 to, glm::vec3 up);
 	void SetPosition(glm::vec3 position);

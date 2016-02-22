@@ -7,3 +7,89 @@ Direct Lighting
 
 Frustum Culling
 
+
+
+classes
+-------
+
+class Program {
+	GLuint getProgram();
+
+	void create( const char* pVertShaader, const char* pFragShader );
+
+	GLuint m_programID;
+}
+
+
+class Mesh {
+	VAO, VBO, IBO
+	indexCount;
+}
+
+class Grid : public GameObject {
+
+	Program m_program;
+	Mesh m_mesh;
+
+	void createGrid( row, cols ) {
+		for(rows)
+		for(cols)
+		m_mesh.create( verts, indices );
+	}
+
+	void draw() {
+		glUseProgram( m_program.getID() );
+		glDrawElements( m_mesh.getIndexCount() );
+	}
+}
+
+
+class Renderer {
+//	std::vector<GameObject*> m_gameObejcts;
+	Grid m_grid;
+
+
+	draw() {
+		ImGUI::ColorEdit( "Grid color", m_grid.color );
+
+		m_gui->newFrame();
+
+		ImGui::ColorEdit3("clear color", glm::value_ptr(clearColor));
+
+		grid.gui();
+
+		m_gui->render();
+
+
+		glUseProgram( m_grid.getProgram().getID() );
+
+		glDrawElements( .... , m_mesh.getIndexCount() ... );
+		
+	}
+
+}
+
+class GUI
+{
+	std::map<char*,variables>
+
+	NewFrame();
+
+	for( gameObject : m_gameObjects ) {
+		gameObject->gui();
+	}
+
+	Render();
+}
+
+// For later
+class InputManager
+{
+}
+
+class GameObject {
+	virtual void create();
+	virtual void update();
+	virtual void draw();
+	virtual void gui();
+}

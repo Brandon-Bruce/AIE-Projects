@@ -2,18 +2,19 @@
 #define MYAPPLICATION_H
 #define APPLICATION MyApplication::GetApplication()
 
-#include "Application.h"
+#include "glm\vec4.hpp"
 #include "Shader.h"
+#include "GUI.h"
 
-class MyApplication : public Application
+class Renderer;
+
+class MyApplication
 {
 public:
 	static MyApplication& GetApplication();
 	int Startup();
 	void Shutdown();
 	int Run();
-	int Update();
-	int Draw();
 
 private:
 	MyApplication() {};
@@ -21,9 +22,14 @@ private:
 	void operator=(MyApplication &app) = delete;
 	~MyApplication() {};
 
-	Shader test;
-	float lastFrameTime;
-	float dt;
-};
+	int Update();
+	void Draw();
 
+	Renderer* renderer;
+
+	GUI gui;
+	Shader test;
+	double lastFrameTime;
+	double dt;
+};
 #endif // !MYAPPLICATION_H

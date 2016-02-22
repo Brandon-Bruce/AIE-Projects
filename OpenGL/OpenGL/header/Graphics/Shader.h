@@ -19,7 +19,7 @@ public:
 	//Create a grid
 	void GenerateGrid(unsigned int rows, unsigned int cols);
 	//Draw grid
-	void Draw(float deltatime, float time);
+	void Draw(double deltatime, double time);
 
 private:
 	unsigned int m_VAO;

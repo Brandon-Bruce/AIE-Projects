@@ -19,10 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dep\aieutilities\imgui_impl_glfw_gl3.cpp" />
+    <ClCompile Include="dep\ImGUI\imgui.cpp" />
+    <ClCompile Include="dep\ImGUI\imgui_demo.cpp" />
+    <ClCompile Include="dep\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="source\Graphics\GUI.cpp" />
     <ClCompile Include="source\Assets\AssetLoader.cpp" />
     <ClCompile Include="source\Graphics\Shader.cpp" />
     <ClCompile Include="source\Graphics\FlyCamera.cpp" />
-    <ClCompile Include="source\Graphics\GraphicsManager.cpp" />
+    <ClCompile Include="source\Graphics\Renderer.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
     <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
     <ClCompile Include="source\gl_core_4_4.c" />
@@ -30,15 +36,16 @@
     <ClCompile Include="source\MyApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Graphics\GUI.h" />
     <ClInclude Include="header\Assets\AssetLoader.h" />
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
     <ClInclude Include="header\Graphics\FlyCamera.h" />
-    <ClInclude Include="header\Graphics\GraphicsManager.h" />
-    <ClInclude Include="header\Application.h" />
+    <ClInclude Include="header\Graphics\Renderer.h" />
     <ClInclude Include="header\Graphics\Camera.h" />
     <ClInclude Include="header\gl_core_4_4.h" />
     <ClInclude Include="header\MyApplication.h" />
     <ClInclude Include="header\Graphics\Shader.h" />
+    <ClInclude Include="Mesh.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76022712-AB56-4B15-9AE4-E8C7AECEBEDC}</ProjectGuid>
@@ -111,7 +118,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)dep\ImGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +151,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)dep\ImGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

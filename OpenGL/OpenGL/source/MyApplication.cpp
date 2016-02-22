@@ -1,7 +1,10 @@
 #include "MyApplication.h"
 #include "glfw\glfw3.h"
-#include "GraphicsManager.h"
+#include "Renderer.h"
 #include "Camera.h"
+#include "aieutilities\Gizmos.h"
+
+using glm::vec4;
 
 MyApplication& MyApplication::GetApplication()
 {
@@ -11,34 +14,34 @@ MyApplication& MyApplication::GetApplication()
 
 int MyApplication::Startup()
 {
-	if (GRAPHICSMANAGER.Startup())
-	{
+	renderer = new Renderer;
+	if (renderer->Startup())
 		return -1;
-	}
 
 	test.LoadShader();
 	test.GenerateGrid(10, 10);
 
 	lastFrameTime = glfwGetTime();
+	gui.Startup(renderer->GetWindow());
+
+	Gizmos::create();
 
 	return 0;
 }
 
 void MyApplication::Shutdown()
 {
-	glfwTerminate();
+	renderer->Shutdown();
+	delete renderer;
 }
 
 int MyApplication::Run()
 {
-	while (glfwWindowShouldClose(GRAPHICSMANAGER.GetWindow()) == false &&
-		glfwGetKey(GRAPHICSMANAGER.GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS)
+	while (glfwWindowShouldClose(renderer->GetWindow()) == false &&
+		glfwGetKey(renderer->GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
 		Update();
-		glfwPollEvents();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Draw();
-		glfwSwapBuffers(GRAPHICSMANAGER.GetWindow());
 	}
 	return 0;
 }
@@ -46,16 +49,24 @@ int MyApplication::Run()
 int MyApplication::Update()
 {
 	//Calculate delta time
-	float now = glfwGetTime();
+	double now = glfwGetTime();
 	dt = now - lastFrameTime;
 	lastFrameTime = now;
 
-	GRAPHICSMANAGER.GetCamera()->Update(dt);
+	//Get keyboard events
+	glfwPollEvents();
+
+	renderer->GetCamera()->Update(dt);
 	return 0;
 }
 
-int MyApplication::Draw()
+void MyApplication::Draw()
 {
+	renderer->BeginRender();
+
 	test.Draw(dt, lastFrameTime);
+	gui.Render();
+
+	renderer->EndRender();
 	return 0;
 }

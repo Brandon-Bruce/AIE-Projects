@@ -139,7 +139,7 @@ void Shader::GenerateGrid(unsigned int rows, unsigned int cols)
 	delete[] aoVerticies;
 }
 
-void Shader::Draw(float deltatime, float time)
+void Shader::Draw(double deltatime, double time)
 {
 	glUseProgram(m_programID);
 	//Set variables for shader
@@ -149,7 +149,7 @@ void Shader::Draw(float deltatime, float time)
 		glm::value_ptr(GRAPHICSMANAGER.GetCamera()->GetProjectionView()));
 
 	unsigned int timeUniform = glGetUniformLocation(m_programID, "time");
-	glUniform1f(timeUniform, time);
+	glUniform1f(timeUniform, (float)time);
 
 	unsigned int heightScaleUniform =
 		glGetUniformLocation(m_programID, "heightScale");

@@ -21,7 +21,7 @@ FlyCamera::~FlyCamera()
 
 }
 
-void FlyCamera::Update(float deltaTime)
+void FlyCamera::Update(double deltaTime)
 {
 	//Get window
 	GLFWwindow* window = GRAPHICSMANAGER.GetWindow();
@@ -57,9 +57,9 @@ void FlyCamera::Update(float deltaTime)
 	double deltaY = mouseY - prevMousePosY;
 
 	//Reset mouse position
-	int windowHeight, windowWidth;
-	glfwGetWindowSize(window, &windowWidth, &windowHeight);
-	glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
+	//int windowHeight, windowWidth;
+	//glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	//glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
 	glfwGetCursorPos(window, &prevMousePosX, &prevMousePosY);
 
 	mat4 mMat;
