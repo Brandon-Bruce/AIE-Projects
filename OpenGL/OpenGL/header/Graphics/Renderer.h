@@ -5,7 +5,7 @@
 
 class Camera;
 struct GLFWwindow;
-class Shader;
+class Grid;
 
 class Renderer
 {

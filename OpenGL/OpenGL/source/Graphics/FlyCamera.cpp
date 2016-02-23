@@ -1,7 +1,7 @@
 #include "FlyCamera.h"
 #include "glfw\glfw3.h"
 #include "glm\ext.hpp"
-#include "GraphicsManager.h"
+#include "Renderer.h"
 
 using glm::vec3;
 using glm::vec4;
@@ -9,11 +9,11 @@ using glm::mat4;
 
 FlyCamera::FlyCamera() : speed(0.1f), rotationSpeed(1.0f)
 {
-	int windowHeight, windowWidth;
-	GLFWwindow* window = GRAPHICSMANAGER.GetWindow();
-	glfwGetWindowSize(window, &windowWidth, &windowHeight);
-	glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
-	glfwGetCursorPos(GRAPHICSMANAGER.GetWindow(), &prevMousePosX, &prevMousePosY);
+	//int windowHeight, windowWidth;
+	//GLFWwindow* window = GRAPHICSMANAGER.GetWindow();
+	//glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	//glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
+	glfwGetCursorPos(glfwGetCurrentContext(), &prevMousePosX, &prevMousePosY);
 }
 
 FlyCamera::~FlyCamera()
@@ -24,7 +24,7 @@ FlyCamera::~FlyCamera()
 void FlyCamera::Update(double deltaTime)
 {
 	//Get window
-	GLFWwindow* window = GRAPHICSMANAGER.GetWindow();
+	GLFWwindow* window = glfwGetCurrentContext();
 
 	//Get directions
 

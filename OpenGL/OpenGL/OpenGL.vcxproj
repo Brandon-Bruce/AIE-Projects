@@ -23,10 +23,11 @@
     <ClCompile Include="dep\ImGUI\imgui.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_draw.cpp" />
-    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="source\Assets\Program.cpp" />
+    <ClCompile Include="source\Assets\Mesh.cpp" />
     <ClCompile Include="source\Graphics\GUI.cpp" />
     <ClCompile Include="source\Assets\AssetLoader.cpp" />
-    <ClCompile Include="source\Graphics\Shader.cpp" />
+    <ClCompile Include="source\Graphics\Grid.cpp" />
     <ClCompile Include="source\Graphics\FlyCamera.cpp" />
     <ClCompile Include="source\Graphics\Renderer.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="source\MyApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Assets\Vertex.h" />
     <ClInclude Include="header\Graphics\GUI.h" />
     <ClInclude Include="header\Assets\AssetLoader.h" />
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
@@ -44,8 +46,9 @@
     <ClInclude Include="header\Graphics\Camera.h" />
     <ClInclude Include="header\gl_core_4_4.h" />
     <ClInclude Include="header\MyApplication.h" />
-    <ClInclude Include="header\Graphics\Shader.h" />
-    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="header\Graphics\Grid.h" />
+    <ClInclude Include="header\Assets\Mesh.h" />
+    <ClInclude Include="header\Assets\Program.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76022712-AB56-4B15-9AE4-E8C7AECEBEDC}</ProjectGuid>
