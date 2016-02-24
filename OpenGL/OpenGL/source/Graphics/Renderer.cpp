@@ -2,8 +2,10 @@
 #include <iostream>
 #include "gl_core_4_4.h"
 #include "glfw\glfw3.h"
+#include "glm\ext.hpp"
 #include "FlyCamera.h"
-#include "Shader.h"
+#include "Program.h"
+#include "Mesh.h"
 
 using std::cout;
 using glm::vec4;
@@ -63,6 +65,29 @@ void Renderer::BeginRender()
 	//Clear render buffer
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Renderer::RenderMesh(Program* program, Mesh* mesh, float time)
+{
+	GLuint m_programID = program->GetProgramID();
+	glUseProgram(m_programID);
+	//Set variables for shader
+	unsigned int projectionViewUniform =
+		glGetUniformLocation(m_programID, "ProjectionView");
+	glUniformMatrix4fv(projectionViewUniform, 1, false,
+		glm::value_ptr(camera->GetProjectionView()));
+
+	unsigned int timeUniform = glGetUniformLocation(m_programID, "time");
+	glUniform1f(timeUniform, (float)time);
+
+	unsigned int heightScaleUniform =
+		glGetUniformLocation(m_programID, "heightScale");
+	glUniform1f(heightScaleUniform, 2.0f);
+
+	glBindVertexArray(mesh->GetVAO());
+	unsigned int indexCount = mesh->GetIndexCount() * 6;
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Renderer::EndRender()

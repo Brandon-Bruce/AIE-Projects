@@ -7,7 +7,7 @@ class Program
 {
 public:
 	void Create(const char* pVertShader, const char* pFragShader);
-	GLuint GetProgram();
+	GLuint GetProgramID();
 
 private:
 	GLuint program_ID;

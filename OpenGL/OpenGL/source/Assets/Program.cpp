@@ -34,7 +34,7 @@ void Program::Create(const char * pVertShader, const char * pFragShader)
 	glDeleteShader(vertextShader);
 }
 
-GLuint Program::GetProgram()
+GLuint Program::GetProgramID()
 {
 	return GLuint();
 }

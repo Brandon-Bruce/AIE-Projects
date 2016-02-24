@@ -2,6 +2,16 @@
 #include "gl_core_4_4.h"
 #include "Vertex.h"
 
+unsigned int Mesh::GetVAO()
+{
+	return m_VAO;
+}
+
+unsigned int Mesh::GetIndexCount()
+{
+	return indexCount;
+}
+
 void Mesh::Create(unsigned int indexCount, Vertex* aoVerticies, unsigned int* auiIndices)
 {
 	//Generate GL buffers
@@ -25,7 +35,7 @@ void Mesh::Create(unsigned int indexCount, Vertex* aoVerticies, unsigned int* au
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (rows - 1) * (cols - 1) * 6 *
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * 6 *
 		sizeof(unsigned int), auiIndices, GL_STATIC_DRAW);
 
 	//Unbind buffers

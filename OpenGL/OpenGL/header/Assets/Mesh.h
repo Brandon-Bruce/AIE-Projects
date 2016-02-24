@@ -4,6 +4,8 @@
 class Mesh
 {
 public:
+	unsigned int GetVAO();
+	unsigned int GetIndexCount();
 	void Create(unsigned int indexCount, Vertex* aoVerticies, unsigned int* auiIndices);
 	~Mesh();
 
