@@ -14,6 +14,7 @@ unsigned int Mesh::GetIndexCount()
 
 void Mesh::Create(unsigned int indexCount, Vertex* aoVerticies, unsigned int* auiIndices)
 {
+	this->indexCount = indexCount;
 	//Generate GL buffers
 	glGenBuffers(1, &m_VBO);
 	glGenBuffers(1, &m_IBO);

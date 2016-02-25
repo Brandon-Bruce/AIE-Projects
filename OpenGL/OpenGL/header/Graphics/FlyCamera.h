@@ -20,4 +20,3 @@ private:
 };
 
 #endif // !FLYCAMERA_H
-

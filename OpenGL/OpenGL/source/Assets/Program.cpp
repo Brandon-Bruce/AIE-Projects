@@ -12,29 +12,55 @@ void Program::Create(const char * pVertShader, const char * pFragShader)
 	glShaderSource(fragmentShader, 1, (const char**)&pFragShader, 0);
 	glCompileShader(fragmentShader);
 
+	CheckCompileStatus(fragmentShader);
+	CheckCompileStatus(vertextShader);
+
 	program_ID = glCreateProgram();
 	glAttachShader(program_ID, vertextShader);
 	glAttachShader(program_ID, fragmentShader);
 	glLinkProgram(program_ID);
 
-	glGetProgramiv(program_ID, GL_LINK_STATUS, &success);
-	if (success == GL_FALSE)
-	{
-		int infoLogLength = 0;
-		glGetProgramiv(program_ID, GL_INFO_LOG_LENGTH, &infoLogLength);
-		char* infoLog = new char[infoLogLength];
-
-		glGetProgramInfoLog(program_ID, infoLogLength, 0, infoLog);
-		printf("Error: Failed to link shader program!\n");
-		printf("%s\n", infoLog);
-		delete[] infoLog;
-	}
+	CheckLinkStatus();
 
 	glDeleteShader(fragmentShader);
 	glDeleteShader(vertextShader);
 }
 
+bool Program::CheckCompileStatus(GLuint shaderId)
+{
+	GLint result = GL_FALSE;
+	int logLength = 0;
+	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
+	if (result != GL_TRUE) {
+		char* logBuffer = NULL;
+		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+		logBuffer = new char[logLength];
+		glGetShaderInfoLog(shaderId, logLength, NULL, logBuffer);
+		std::cerr << "Compile Error: " << logBuffer << std::endl;
+		delete[] logBuffer;
+		return false;
+	}
+	return true;
+}
+
+bool Program::CheckLinkStatus()
+{
+	GLint result = GL_FALSE;
+	int logLength = 0;
+	glGetProgramiv(program_ID, GL_LINK_STATUS, &result);
+	if (result != GL_TRUE) {
+		char* logBuffer = NULL;
+		glGetProgramiv(program_ID, GL_INFO_LOG_LENGTH, &logLength);
+		logBuffer = new char[logLength];
+		glGetProgramInfoLog(program_ID, logLength, NULL, logBuffer);
+		std::cerr << "Link Error: " << logBuffer << std::endl;
+		delete[] logBuffer;
+		return false;
+	}
+	return true;
+}
+
 GLuint Program::GetProgramID()
 {
-	return GLuint();
+	return program_ID;
 }

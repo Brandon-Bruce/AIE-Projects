@@ -2,11 +2,11 @@
 #define MYAPPLICATION_H
 #define APPLICATION MyApplication::GetApplication()
 
-#include "glm\vec4.hpp"
-#include "Shader.h"
-#include "GUI.h"
+//#include "glm\vec4.hpp"
+//#include "GUI.h"
 
 class Renderer;
+class Grid;
 
 class MyApplication
 {
@@ -26,9 +26,9 @@ private:
 	void Draw();
 
 	Renderer* renderer;
+	Grid* grid;
 
-	GUI gui;
-	Shader test;
+	//GUI gui;
 	double lastFrameTime;
 	double dt;
 };

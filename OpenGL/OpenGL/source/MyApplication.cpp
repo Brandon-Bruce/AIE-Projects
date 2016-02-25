@@ -1,10 +1,32 @@
 #include "MyApplication.h"
-#include "glfw\glfw3.h"
 #include "Renderer.h"
 #include "Camera.h"
 #include "aieutilities\Gizmos.h"
+#include "Grid.h"
+#include "glfw\glfw3.h"
+
+#include <cstdio>
 
 using glm::vec4;
+
+
+#define printOpenGLError() printOglError(__FILE__, __LINE__)
+
+int printOglError(char *file, int line)
+{
+
+	GLenum glErr;
+	int    retCode = 0;
+
+	glErr = glGetError();
+	if (glErr != GL_NO_ERROR)
+	{
+		printf("glError in file %s @ line %d\n",
+			file, line);
+		retCode = 1;
+	}
+	return retCode;
+}
 
 MyApplication& MyApplication::GetApplication()
 {
@@ -18,11 +40,18 @@ int MyApplication::Startup()
 	if (renderer->Startup())
 		return -1;
 
-	test.LoadShader();
-	test.GenerateGrid(10, 10);
+	grid = new Grid;
+	grid->LoadShader();
+	grid->GenerateGrid(10, 10);
+
+
+	printOpenGLError();
+
+	//test.LoadShader();
+	//test.GenerateGrid(10, 10);
 
 	lastFrameTime = glfwGetTime();
-	gui.Startup(renderer->GetWindow());
+	//gui.Startup(renderer->GetWindow());
 
 	Gizmos::create();
 
@@ -37,11 +66,16 @@ void MyApplication::Shutdown()
 
 int MyApplication::Run()
 {
+	printOpenGLError();
+
 	while (glfwWindowShouldClose(renderer->GetWindow()) == false &&
 		glfwGetKey(renderer->GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
+		printOpenGLError();
 		Update();
+		printOpenGLError();
 		Draw();
+		printOpenGLError();
 	}
 	return 0;
 }
@@ -64,9 +98,11 @@ void MyApplication::Draw()
 {
 	renderer->BeginRender();
 
-	test.Draw(dt, lastFrameTime);
-	gui.Render();
+	glm::mat4 projectionView = renderer->GetCamera()->GetProjectionView();
+	grid->Draw(dt, lastFrameTime, projectionView);
+	//test.Draw(dt, lastFrameTime);
+	//gui.Render();
 
 	renderer->EndRender();
-	return 0;
+	//return 0;
 }

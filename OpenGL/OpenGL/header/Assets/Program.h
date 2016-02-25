@@ -10,6 +10,9 @@ public:
 	GLuint GetProgramID();
 
 private:
+	bool CheckCompileStatus(GLuint shaderId);
+	bool CheckLinkStatus();
+
 	GLuint program_ID;
 };
 

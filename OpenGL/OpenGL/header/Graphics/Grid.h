@@ -15,7 +15,7 @@ public:
 	//Create a grid
 	void GenerateGrid(unsigned int rows, unsigned int cols);
 	//Draw grid
-	void Draw(double deltatime, double time);
+	void Draw(double deltatime, double time, glm::mat4 projectionView);
 
 private:
 	Mesh mesh;

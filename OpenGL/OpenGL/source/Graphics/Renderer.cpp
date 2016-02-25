@@ -7,8 +7,73 @@
 #include "Program.h"
 #include "Mesh.h"
 
-using std::cout;
+using namespace std;
 using glm::vec4;
+
+void APIENTRY openglCallbackFunction(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	const void* userParam)
+{
+	cout << "---------------------opengl-callback-start------------" << endl;
+	cout << "message: " << message << endl;
+	cout << "type: ";
+	switch (type) {
+	case GL_DEBUG_TYPE_ERROR:
+		cout << "ERROR";
+		break;
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		cout << "DEPRECATED_BEHAVIOR";
+		break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+		cout << "UNDEFINED_BEHAVIOR";
+		break;
+	case GL_DEBUG_TYPE_PORTABILITY:
+		cout << "PORTABILITY";
+		break;
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		cout << "PERFORMANCE";
+		break;
+	case GL_DEBUG_TYPE_OTHER:
+		cout << "OTHER";
+		break;
+	}
+	cout << endl;
+
+	cout << "id: " << id;
+	cout << "severity: ";
+	switch (severity) {
+	case GL_DEBUG_SEVERITY_LOW:
+		cout << "LOW";
+		break;
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		cout << "MEDIUM";
+		break;
+	case GL_DEBUG_SEVERITY_HIGH:
+		cout << "HIGH";
+		break;
+	}
+	cout << endl;
+	cout << "---------------------opengl-callback-end--------------" << endl;
+}
+
+void TurnOnDebugLogging()
+{
+	if (glDebugMessageCallback == nullptr) return;
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageCallback(openglCallbackFunction, nullptr);
+	GLuint unusedIds = 0;
+	glDebugMessageControl(
+		GL_DONT_CARE, // source
+		GL_DONT_CARE, // type
+		GL_DONT_CARE, // severity
+		0,
+		&unusedIds,
+		true);
+}
 
 Renderer::Renderer()
 {
@@ -45,6 +110,8 @@ int Renderer::Startup()
 		return -3;
 	}
 
+	TurnOnDebugLogging();
+
 	clearColor = vec4(1, 1, 1, 1);
 	glEnable(GL_DEPTH_TEST); //Enable depth buffer
 
@@ -69,25 +136,6 @@ void Renderer::BeginRender()
 
 void Renderer::RenderMesh(Program* program, Mesh* mesh, float time)
 {
-	GLuint m_programID = program->GetProgramID();
-	glUseProgram(m_programID);
-	//Set variables for shader
-	unsigned int projectionViewUniform =
-		glGetUniformLocation(m_programID, "ProjectionView");
-	glUniformMatrix4fv(projectionViewUniform, 1, false,
-		glm::value_ptr(camera->GetProjectionView()));
-
-	unsigned int timeUniform = glGetUniformLocation(m_programID, "time");
-	glUniform1f(timeUniform, (float)time);
-
-	unsigned int heightScaleUniform =
-		glGetUniformLocation(m_programID, "heightScale");
-	glUniform1f(heightScaleUniform, 2.0f);
-
-	glBindVertexArray(mesh->GetVAO());
-	unsigned int indexCount = mesh->GetIndexCount() * 6;
-	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Renderer::EndRender()

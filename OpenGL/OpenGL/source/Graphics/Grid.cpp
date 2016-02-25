@@ -78,7 +78,25 @@ void Grid::GenerateGrid(unsigned int rows, unsigned int cols)
 	mesh.Create(rows * cols, aoVerticies, auiIndices);
 }
 
-void Grid::Draw(double deltatime, double time)
+void Grid::Draw(double deltatime, double time, glm::mat4 projectionView)
 {
+	GLuint m_programID = program.GetProgramID();
+	glUseProgram(m_programID);
+	//Set variables for shader
+	unsigned int projectionViewUniform =
+		glGetUniformLocation(m_programID, "ProjectionView");
+	glUniformMatrix4fv(projectionViewUniform, 1, false,
+		glm::value_ptr(projectionView));
 
+	unsigned int timeUniform = glGetUniformLocation(m_programID, "time");
+	glUniform1f(timeUniform, (float)time);
+
+	unsigned int heightScaleUniform =
+		glGetUniformLocation(m_programID, "heightScale");
+	glUniform1f(heightScaleUniform, 2.0f);
+
+	glBindVertexArray(mesh.GetVAO());
+	unsigned int indexCount = mesh.GetIndexCount() * 6;
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
