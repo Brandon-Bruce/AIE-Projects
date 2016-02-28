@@ -134,10 +134,6 @@ void Renderer::BeginRender()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::RenderMesh(Program* program, Mesh* mesh, float time)
-{
-}
-
 void Renderer::EndRender()
 {	
 	//Draw buffers

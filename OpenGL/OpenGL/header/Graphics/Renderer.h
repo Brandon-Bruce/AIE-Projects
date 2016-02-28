@@ -18,7 +18,6 @@ public:
 	int Startup();
 	void Shutdown();
 	void BeginRender();
-	void RenderMesh(Program* program, Mesh* mesh, float time);
 	void EndRender();
 
 	Camera* GetCamera();

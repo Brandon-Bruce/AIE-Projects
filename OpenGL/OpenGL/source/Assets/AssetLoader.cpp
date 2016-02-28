@@ -1,10 +1,13 @@
 #include "AssetLoader.h"
+#include <fstream>
 
-AssetLoader::AssetLoader()
+using namespace std;
+
+std::string AssetLoader::ReadFile(const char * fileName)
 {
-}
+	string data;
 
+	
 
-AssetLoader::~AssetLoader()
-{
+	return string();
 }
