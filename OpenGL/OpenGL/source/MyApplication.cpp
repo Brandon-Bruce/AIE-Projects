@@ -4,11 +4,13 @@
 #include "aieutilities\Gizmos.h"
 #include "Grid.h"
 #include "glfw\glfw3.h"
+#include "FBXProgram.h"
+#include "PerlinNoise.h"
 
 #include <cstdio>
 
 using glm::vec4;
-
+using glm::mat4;
 
 #define printOpenGLError() printOglError(__FILE__, __LINE__)
 
@@ -42,8 +44,18 @@ int MyApplication::Startup()
 
 	grid = new Grid;
 	grid->LoadShader();
-	grid->GenerateGrid(10, 10);
+	grid->GenerateGrid(64, 64);
 
+	bunny = new FBXProgram;
+	bunny->Startup("./data/Bunny.fbx");
+
+	//dragon = new FBXProgram;
+	//mat4 dragonPos = mat4();
+	//dragonPos[3] = vec4(10, 10, 10, 0);
+	//dragon->Startup("./data/Dragon.fbx", dragonPos);
+
+	perlinNoise = new PerlinNoise;
+	perlinNoise->Create(64, 64);
 
 	printOpenGLError();
 
@@ -60,6 +72,8 @@ int MyApplication::Startup()
 
 void MyApplication::Shutdown()
 {
+	delete bunny;
+	//delete dragon;
 	renderer->Shutdown();
 	delete renderer;
 }
@@ -99,7 +113,10 @@ void MyApplication::Draw()
 	renderer->BeginRender();
 
 	glm::mat4 projectionView = renderer->GetCamera()->GetProjectionView();
-	grid->Draw(dt, lastFrameTime, projectionView);
+	//grid->Draw(dt, lastFrameTime, projectionView);
+	perlinNoise->Draw(dt, lastFrameTime, projectionView);
+	bunny->Draw(projectionView);
+	//dragon->Draw(projectionView);
 	//test.Draw(dt, lastFrameTime);
 	//gui.Render();
 

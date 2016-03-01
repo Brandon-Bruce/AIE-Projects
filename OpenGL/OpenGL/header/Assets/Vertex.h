@@ -2,11 +2,18 @@
 #define VERTEX_H
 
 #include "glm\vec4.hpp"
+#include "glm\vec2.hpp"
 
 struct Vertex
 {
 	glm::vec4 position;
 	glm::vec4 colour;
+};
+
+struct NoiseVertex
+{
+	glm::vec4 position;
+	glm::vec2 texcoord;
 };
 
 #endif

@@ -8,12 +8,14 @@ class Program
 public:
 	void Create(const char* pVertShader, const char* pFragShader);
 	GLuint GetProgramID();
+	void CleanUp();
+
+protected:
+	GLuint program_ID;
 
 private:
 	bool CheckCompileStatus(GLuint shaderId);
 	bool CheckLinkStatus();
-
-	GLuint program_ID;
 };
 
 #endif

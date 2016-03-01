@@ -112,7 +112,7 @@ int Renderer::Startup()
 
 	TurnOnDebugLogging();
 
-	clearColor = vec4(1, 1, 1, 1);
+	clearColor = vec4(0, 0, 1, 1);
 	glEnable(GL_DEPTH_TEST); //Enable depth buffer
 
 	camera = new FlyCamera;

@@ -23,6 +23,8 @@
     <ClCompile Include="dep\ImGUI\imgui.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="source\Assets\PerlinNoise.cpp" />
+    <ClCompile Include="source\Assets\FBXProgram.cpp" />
     <ClCompile Include="source\Assets\Program.cpp" />
     <ClCompile Include="source\Assets\Mesh.cpp" />
     <ClCompile Include="source\Graphics\GUI.cpp" />
@@ -37,6 +39,7 @@
     <ClCompile Include="source\MyApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Assets\FBXProgram.h" />
     <ClInclude Include="header\Assets\Vertex.h" />
     <ClInclude Include="header\Graphics\GUI.h" />
     <ClInclude Include="header\Assets\AssetLoader.h" />
@@ -49,6 +52,7 @@
     <ClInclude Include="header\Graphics\Grid.h" />
     <ClInclude Include="header\Assets\Mesh.h" />
     <ClInclude Include="header\Assets\Program.h" />
+    <ClInclude Include="header\Assets\PerlinNoise.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76022712-AB56-4B15-9AE4-E8C7AECEBEDC}</ProjectGuid>
@@ -122,12 +126,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)dep\ImGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)dep/glfw/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dep/glfw/;$(ProjectDir)dep/FBX/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;FBXLoader_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,14 +160,15 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)dep\ImGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)dep/glfw/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dep/glfw/;$(ProjectDir)dep/FBX/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;FBXLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

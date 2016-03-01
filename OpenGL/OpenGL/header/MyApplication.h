@@ -7,6 +7,8 @@
 
 class Renderer;
 class Grid;
+class FBXProgram;
+class PerlinNoise;
 
 class MyApplication
 {
@@ -27,6 +29,9 @@ private:
 
 	Renderer* renderer;
 	Grid* grid;
+	FBXProgram* bunny;
+	//FBXProgram* dragon;
+	PerlinNoise* perlinNoise;
 
 	//GUI gui;
 	double lastFrameTime;

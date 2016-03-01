@@ -9,11 +9,12 @@ using glm::mat4;
 
 FlyCamera::FlyCamera() : speed(0.1f), rotationSpeed(1.0f)
 {
-	//int windowHeight, windowWidth;
-	//GLFWwindow* window = GRAPHICSMANAGER.GetWindow();
-	//glfwGetWindowSize(window, &windowWidth, &windowHeight);
-	//glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
-	glfwGetCursorPos(glfwGetCurrentContext(), &prevMousePosX, &prevMousePosY);
+	int windowHeight, windowWidth;
+	GLFWwindow* window = glfwGetCurrentContext();
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
+	glfwGetCursorPos(window, &prevMousePosX, &prevMousePosY);
+	//mousePressed = false;
 }
 
 FlyCamera::~FlyCamera()
@@ -50,31 +51,34 @@ void FlyCamera::Update(double deltaTime)
 		worldTransform[3] += up * speed;
 
 	//calculate delta mouse movement
-	double mouseX = 0, mouseY = 0;
-	glfwGetCursorPos(window, &mouseX, &mouseY);
+	if (glfwGetMouseButton(window, 0) == GLFW_PRESS)
+	{
+		double mouseX = 0, mouseY = 0;
+		glfwGetCursorPos(window, &mouseX, &mouseY);
 
-	double deltaX = mouseX - prevMousePosX;
-	double deltaY = mouseY - prevMousePosY;
+		double deltaX = mouseX - prevMousePosX;
+		double deltaY = mouseY - prevMousePosY;
 
-	//Reset mouse position
-	//int windowHeight, windowWidth;
-	//glfwGetWindowSize(window, &windowWidth, &windowHeight);
-	//glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
-	glfwGetCursorPos(window, &prevMousePosX, &prevMousePosY);
+		//Reset mouse position
+		int windowHeight, windowWidth;
+		glfwGetWindowSize(window, &windowWidth, &windowHeight);
+		glfwSetCursorPos(window, (double)(windowWidth / 2), (double)(windowHeight / 2));
+		glfwGetCursorPos(window, &prevMousePosX, &prevMousePosY);
 
-	mat4 mMat;
+		mat4 mMat;
 
-	//Add rotation to world position
-	vec3 axis = vec3(worldTransform[0].x, worldTransform[0].y, worldTransform[0].z);
-	mMat = glm::axisAngleMatrix(axis, ((float)-deltaY / 150.0f) * rotationSpeed);
-	worldTransform[0] = mMat * worldTransform[0];
-	worldTransform[1] = mMat * worldTransform[1];
-	worldTransform[2] = mMat * worldTransform[2];
+		//Add rotation to world position
+		vec3 axis = vec3(worldTransform[0].x, worldTransform[0].y, worldTransform[0].z);
+		mMat = glm::axisAngleMatrix(axis, ((float)-deltaY / 150.0f) * rotationSpeed);
+		worldTransform[0] = mMat * worldTransform[0];
+		worldTransform[1] = mMat * worldTransform[1];
+		worldTransform[2] = mMat * worldTransform[2];
 
-	mMat = glm::axisAngleMatrix(vec3(0,1,0), ((float)-deltaX / 150.0f) * rotationSpeed);
-	worldTransform[0] = mMat * worldTransform[0];
-	worldTransform[1] = mMat * worldTransform[1];
-	worldTransform[2] = mMat * worldTransform[2];
+		mMat = glm::axisAngleMatrix(vec3(0, 1, 0), ((float)-deltaX / 150.0f) * rotationSpeed);
+		worldTransform[0] = mMat * worldTransform[0];
+		worldTransform[1] = mMat * worldTransform[1];
+		worldTransform[2] = mMat * worldTransform[2];
+	}
 }
 
 void FlyCamera::SetSpeed(float speed)

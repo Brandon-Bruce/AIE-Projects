@@ -17,6 +17,7 @@ private:
 	double prevMousePosX;
 	double prevMousePosY;
 	float rotationSpeed;
+	//bool mouseDown;
 };
 
 #endif // !FLYCAMERA_H

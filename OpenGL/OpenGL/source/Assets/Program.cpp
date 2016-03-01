@@ -64,3 +64,8 @@ GLuint Program::GetProgramID()
 {
 	return program_ID;
 }
+
+void Program::CleanUp()
+{
+	glDeleteProgram(program_ID);
+}

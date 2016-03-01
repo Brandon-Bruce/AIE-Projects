@@ -40,7 +40,8 @@ void Grid::LoadShader()
 
 void Grid::GenerateGrid(unsigned int rows, unsigned int cols)
 {
-	Vertex* aoVerticies = new Vertex[rows * cols];
+	int vertexCount = rows * cols;
+	Vertex* aoVerticies = new Vertex[vertexCount];
 	for (unsigned int r = 0; r < rows; ++r)
 	{
 		for (unsigned int c = 0; c < cols; ++c)
@@ -56,7 +57,8 @@ void Grid::GenerateGrid(unsigned int rows, unsigned int cols)
 	}
 
 	//Defining index count based off quad count (2 triangles per quad)
-	unsigned int* auiIndices = new unsigned int[(rows - 1) * (cols - 1) * 6];
+	int indexCount = (rows - 1) * (cols - 1) * 6;
+	unsigned int* auiIndices = new unsigned int[indexCount];
 
 	unsigned int index = 0;
 	for (unsigned int r = 0; r < (rows - 1); ++r)
@@ -75,7 +77,7 @@ void Grid::GenerateGrid(unsigned int rows, unsigned int cols)
 		}
 	}
 
-	mesh.Create(rows * cols, aoVerticies, auiIndices);
+	mesh.Create(indexCount, auiIndices, vertexCount * sizeof(Vertex), aoVerticies, nullptr);
 }
 
 void Grid::Draw(double deltatime, double time, glm::mat4 projectionView)
@@ -96,7 +98,7 @@ void Grid::Draw(double deltatime, double time, glm::mat4 projectionView)
 	glUniform1f(heightScaleUniform, 2.0f);
 
 	glBindVertexArray(mesh.GetVAO());
-	unsigned int indexCount = mesh.GetIndexCount() * 6;
+	unsigned int indexCount = mesh.GetIndexCount();
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
