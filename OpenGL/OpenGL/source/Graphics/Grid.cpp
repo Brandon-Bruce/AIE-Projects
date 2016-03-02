@@ -100,5 +100,4 @@ void Grid::Draw(double deltatime, double time, glm::mat4 projectionView)
 	glBindVertexArray(mesh.GetVAO());
 	unsigned int indexCount = mesh.GetIndexCount();
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

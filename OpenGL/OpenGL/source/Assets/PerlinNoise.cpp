@@ -13,7 +13,7 @@ void PerlinNoise::Create(unsigned int rows, unsigned int colums)
 {
 	LoadShader();
 	GenerateGrid(rows, colums);
-
+	GeneratePerlinNoise(rows, colums);
 }
 
 void PerlinNoise::LoadShader()
@@ -89,7 +89,7 @@ void PerlinNoise::GeneratePerlinNoise(unsigned int rows, unsigned int colums)
 	{
 		for (unsigned int y = 0; y < colums; ++y)
 		{
-			perlinData[y * dims + x] = glm::perlin(vec2(x, y) * scale) *0.5f + 0.5f;
+			perlinData[y * dims + x] = glm::perlin(vec2(x, y) * scale) * 0.5f + 0.5f;
 		}
 	}
 
@@ -97,7 +97,7 @@ void PerlinNoise::GeneratePerlinNoise(unsigned int rows, unsigned int colums)
 	glGenTextures(1, &perlinTexture);
 	glBindTexture(GL_TEXTURE_2D, perlinTexture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, rows, colums, 0, GL_RED, GL_FLOAT, perlinData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, colums, rows, 0, GL_RED, GL_FLOAT, perlinData);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -110,6 +110,7 @@ void PerlinNoise::Draw(double deltatime, double time, glm::mat4 projectionView)
 {
 	GLuint m_programID = program.GetProgramID();
 	glUseProgram(m_programID);
+
 	//Set variables for shader
 
 	//Camera
@@ -122,9 +123,9 @@ void PerlinNoise::Draw(double deltatime, double time, glm::mat4 projectionView)
 	glBindTexture(GL_TEXTURE_2D, perlinTexture);
 
 	loc = glGetUniformLocation(m_programID, "PerlinTexture");
-	glUniform1i(loc, 1);
+	glUniform1i(loc, 0);
 
 	//bind verticies
 	glBindVertexArray(mesh.GetVAO());
-	glDrawElements(GL_TRIANGLES, mesh.GetIndexCount(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mesh.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 }
