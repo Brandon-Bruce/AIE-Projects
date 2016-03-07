@@ -62,10 +62,11 @@ void FBXProgram::CleanUpOpenGLBuffers()
 
 void FBXProgram::Draw(glm::mat4 projectionView)
 {
-	glUseProgram(program_ID);
+	GLuint program = GetProgramID();
+	glUseProgram(program);
 
 	//bind camera
-	unsigned int loc = glGetUniformLocation(program_ID, "ProjectionView");
+	unsigned int loc = glGetUniformLocation(program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(projectionView));
 
 	//Bind vertex array object and draw mesh

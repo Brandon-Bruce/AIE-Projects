@@ -37,8 +37,10 @@
     <ClCompile Include="source\gl_core_4_4.c" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MyApplication.cpp" />
+    <ClCompile Include="source\Assets\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dep\STB\stb_image.h" />
     <ClInclude Include="header\Assets\FBXProgram.h" />
     <ClInclude Include="header\Assets\Vertex.h" />
     <ClInclude Include="header\Graphics\GUI.h" />
@@ -53,6 +55,7 @@
     <ClInclude Include="header\Assets\Mesh.h" />
     <ClInclude Include="header\Assets\Program.h" />
     <ClInclude Include="header\Assets\PerlinNoise.h" />
+    <ClInclude Include="header\Assets\Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76022712-AB56-4B15-9AE4-E8C7AECEBEDC}</ProjectGuid>

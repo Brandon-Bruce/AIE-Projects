@@ -1,15 +1,17 @@
-#include "Grid.h"
 #include "glm\vec3.hpp"
 #include "glm\ext.hpp"
+#include "Program.h"
+#include "Mesh.h"
+#include "Grid.h"
 #include "Vertex.h"
 
 using glm::vec4;
 using glm::vec3;
 
-
-Grid::~Grid()
+void Grid::destroy()
 {
-
+	delete program;
+	delete mesh;
 }
 
 void Grid::LoadShader()
@@ -35,7 +37,8 @@ void Grid::LoadShader()
 							"out vec4 FragColor;"
 							"void main() { FragColor = vColour; }";
 
-	program.Create(vsSource, fsSource);
+	program = new Program;
+	program->Create(vsSource, fsSource);
 }
 
 void Grid::GenerateGrid(unsigned int rows, unsigned int cols)
@@ -77,12 +80,13 @@ void Grid::GenerateGrid(unsigned int rows, unsigned int cols)
 		}
 	}
 
-	mesh.Create(indexCount, auiIndices, vertexCount * sizeof(Vertex), aoVerticies, nullptr);
+	mesh = new Mesh;
+	mesh->Create(indexCount, auiIndices, vertexCount * sizeof(Vertex), aoVerticies, nullptr);
 }
 
 void Grid::Draw(double deltatime, double time, glm::mat4 projectionView)
 {
-	GLuint m_programID = program.GetProgramID();
+	GLuint m_programID = program->GetProgramID();
 	glUseProgram(m_programID);
 	//Set variables for shader
 	unsigned int projectionViewUniform =
@@ -97,7 +101,7 @@ void Grid::Draw(double deltatime, double time, glm::mat4 projectionView)
 		glGetUniformLocation(m_programID, "heightScale");
 	glUniform1f(heightScaleUniform, 2.0f);
 
-	glBindVertexArray(mesh.GetVAO());
-	unsigned int indexCount = mesh.GetIndexCount();
+	glBindVertexArray(mesh->GetVAO());
+	unsigned int indexCount = mesh->GetIndexCount();
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 }

@@ -2,9 +2,10 @@
 #define PERLINNOISE_H
 
 #include "gl_core_4_4.h"
-#include "Mesh.h"
-#include "Program.h"
 #include "glm\mat4x4.hpp"
+
+class Program;
+class Mesh;
 
 class PerlinNoise
 {
@@ -14,12 +15,12 @@ public:
 
 private:
 	void LoadShader();
-	void GenerateGrid(unsigned int rows, unsigned int colums);
-	void GeneratePerlinNoise(unsigned int rows, unsigned int colums);
+	void GenerateMeshAndNoise(unsigned int rows, unsigned int colums);
+	float GeneratePerlinNoise(unsigned int rows, unsigned int colums);
 
-	Mesh mesh;
+	Mesh* mesh;
+	Program* program;
 	GLuint perlinTexture;
-	Program program;
 };
 
 #endif // !PERLINNOISE_H

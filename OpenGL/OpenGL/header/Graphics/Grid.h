@@ -3,13 +3,14 @@
 
 #include "glm\vec4.hpp"
 #include "glm\mat4x4.hpp"
-#include "Program.h"
-#include "Mesh.h"
+
+class Mesh;
+class Program;
 
 class Grid
 {
 public:
-	~Grid();
+	void destroy();
 
 	virtual void LoadShader();
 	//Create a grid
@@ -18,8 +19,8 @@ public:
 	void Draw(double deltatime, double time, glm::mat4 projectionView);
 
 protected:
-	Mesh mesh;
-	Program program;
+	Mesh* mesh;
+	Program* program;
 };
 
 #endif // !SHADER_H
