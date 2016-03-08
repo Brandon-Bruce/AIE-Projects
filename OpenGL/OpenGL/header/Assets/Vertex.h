@@ -10,7 +10,7 @@ struct Vertex
 	glm::vec4 colour;
 };
 
-struct NoiseVertex
+struct TexVertex
 {
 	glm::vec4 position;
 	glm::vec2 texcoord;

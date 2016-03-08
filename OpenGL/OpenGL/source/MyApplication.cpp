@@ -1,11 +1,11 @@
+#include "FBXProgram.h"
 #include "MyApplication.h"
-#include "Renderer.h"
 #include "Camera.h"
-#include "aieutilities\Gizmos.h"
+//#include "aieutilities\Gizmos.h"
 #include "Grid.h"
 #include "glfw\glfw3.h"
-#include "FBXProgram.h"
 #include "PerlinNoise.h"
+#include "Texture.h"
 
 #include <cstdio>
 
@@ -57,6 +57,9 @@ int MyApplication::Startup()
 	perlinNoise = new PerlinNoise;
 	perlinNoise->Create(64, 64);
 
+	crate = new Texture;
+	crate->Create();
+
 	printOpenGLError();
 
 	//test.LoadShader();
@@ -65,16 +68,19 @@ int MyApplication::Startup()
 	lastFrameTime = glfwGetTime();
 	//gui.Startup(renderer->GetWindow());
 
-	Gizmos::create();
+	//Gizmos::create();
 
 	return 0;
 }
 
 void MyApplication::Shutdown()
 {
-	delete bunny;
 	//delete dragon;
+	bunny->CleanUp();
+	crate->Destroy();
 	renderer->Shutdown();
+	delete bunny;
+	delete crate;
 	delete renderer;
 }
 
@@ -85,9 +91,7 @@ int MyApplication::Run()
 	while (glfwWindowShouldClose(renderer->GetWindow()) == false &&
 		glfwGetKey(renderer->GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
-		printOpenGLError();
 		Update();
-		printOpenGLError();
 		Draw();
 		printOpenGLError();
 	}
@@ -115,6 +119,7 @@ void MyApplication::Draw()
 	glm::mat4 projectionView = renderer->GetCamera()->GetProjectionView();
 	//grid->Draw(dt, lastFrameTime, projectionView);
 	perlinNoise->Draw(dt, lastFrameTime, projectionView);
+	crate->Draw(projectionView);
 	bunny->Draw(projectionView);
 	//dragon->Draw(projectionView);
 	//test.Draw(dt, lastFrameTime);

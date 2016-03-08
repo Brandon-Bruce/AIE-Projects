@@ -2,7 +2,7 @@
 #define MESH_H
 
 struct Vertex;
-struct NoiseVertex;
+struct TexVertex;
 class FBXVertex;
 
 class Mesh
@@ -13,14 +13,14 @@ public:
 	void Create(unsigned int indexCount, unsigned int* auiIndices, int vertexSize,
 		Vertex* aoVerticies = nullptr,
 		FBXVertex* fbxVerticies = nullptr,
-		NoiseVertex* noiseVerticies = nullptr);
+		TexVertex* noiseVerticies = nullptr);
 	void Destroy();
 
 private:
-	void SetUpVertixArrayObject(int vertexSize, Vertex* AoVerticies, FBXVertex* fbxVerticies, NoiseVertex* noiseVerticies);
+	void SetUpVertixArrayObject(int vertexSize, Vertex* AoVerticies, FBXVertex* fbxVerticies, TexVertex* noiseVerticies);
 	void SetUpVertexBuffers(Vertex* verticies);
 	void SetUpVertexBuffers(FBXVertex* verticies);
-	void SetUpVertexBuffers(NoiseVertex* noiseVerticies);
+	void SetUpVertexBuffers(TexVertex* noiseVerticies);
 
 	unsigned int m_VAO;
 	unsigned int m_VBO;

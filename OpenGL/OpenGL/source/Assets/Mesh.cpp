@@ -1,5 +1,5 @@
-#include "Mesh.h"
 #include "gl_core_4_4.h"
+#include "Mesh.h"
 #include "Vertex.h"
 #include "FBX\FBXFile.h"
 
@@ -16,7 +16,7 @@ unsigned int Mesh::GetIndexCount()
 void Mesh::Create(unsigned int indexCount, unsigned int* auiIndices, int vertexSize,
 	Vertex* aoVerticies,
 	FBXVertex* fbxVerticies,
-	NoiseVertex* noiseVerticies)
+	TexVertex* noiseVerticies)
 {
 	this->indexCount = indexCount;
 
@@ -41,7 +41,7 @@ void Mesh::Create(unsigned int indexCount, unsigned int* auiIndices, int vertexS
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Mesh::SetUpVertixArrayObject(int vertexSize, Vertex* aoVerticies, FBXVertex* fbxVerticies, NoiseVertex* noiseVerticies)
+void Mesh::SetUpVertixArrayObject(int vertexSize, Vertex* aoVerticies, FBXVertex* fbxVerticies, TexVertex* noiseVerticies)
 {
 	//Set up Vertex Array Object
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
@@ -88,14 +88,14 @@ void Mesh::SetUpVertexBuffers(FBXVertex* verticies)
 		((char*)0) + FBXVertex::NormalOffset);
 }
 
-void Mesh::SetUpVertexBuffers(NoiseVertex * noiseVerticies)
+void Mesh::SetUpVertexBuffers(TexVertex * noiseVerticies)
 {
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(NoiseVertex),
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(TexVertex),
 		0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(NoiseVertex),
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(TexVertex),
 		(void*)(sizeof(glm::vec4)));
 }
 

@@ -33,7 +33,6 @@
     <ClCompile Include="source\Graphics\FlyCamera.cpp" />
     <ClCompile Include="source\Graphics\Renderer.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
-    <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
     <ClCompile Include="source\gl_core_4_4.c" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MyApplication.cpp" />
@@ -45,7 +44,6 @@
     <ClInclude Include="header\Assets\Vertex.h" />
     <ClInclude Include="header\Graphics\GUI.h" />
     <ClInclude Include="header\Assets\AssetLoader.h" />
-    <ClInclude Include="dep\aieutilities\Gizmos.h" />
     <ClInclude Include="header\Graphics\FlyCamera.h" />
     <ClInclude Include="header\Graphics\Renderer.h" />
     <ClInclude Include="header\Graphics\Camera.h" />

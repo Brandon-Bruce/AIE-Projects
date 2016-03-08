@@ -1,20 +1,18 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
-#include "gl_core_4_4.h"
-
 class Program
 {
 public:
 	void Create(const char* pVertShader, const char* pFragShader);
-	GLuint GetProgramID();
+	unsigned int GetProgramID();
 	void CleanUp();
 
 private:
-	bool CheckCompileStatus(GLuint shaderId);
+	bool CheckCompileStatus(unsigned int shaderId);
 	bool CheckLinkStatus();
 
-	GLuint program_ID;
+	unsigned int program_ID;
 };
 
 #endif

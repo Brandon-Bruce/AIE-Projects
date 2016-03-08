@@ -1,5 +1,6 @@
-#include "FBXProgram.h"
 #include "gl_core_4_4.h"
+#include "Program.h"
+#include "FBXProgram.h"
 #include "FBX\FBXFile.h"
 #include "Mesh.h"
 #include "glm\ext.hpp"

@@ -1,10 +1,9 @@
+#include "gl_core_4_4.h"
 #include "Renderer.h"
 #include <iostream>
-#include "gl_core_4_4.h"
 #include "glfw\glfw3.h"
 #include "glm\ext.hpp"
 #include "FlyCamera.h"
-#include "Program.h"
 #include "Mesh.h"
 
 using namespace std;

@@ -1,7 +1,6 @@
 #ifndef PERLINNOISE_H
 #define PERLINNOISE_H
 
-#include "gl_core_4_4.h"
 #include "glm\mat4x4.hpp"
 
 class Program;
@@ -20,7 +19,7 @@ private:
 
 	Mesh* mesh;
 	Program* program;
-	GLuint perlinTexture;
+	unsigned int perlinTexture;
 };
 
 #endif // !PERLINNOISE_H

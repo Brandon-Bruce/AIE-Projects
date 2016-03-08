@@ -1,15 +1,29 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "Program.h"
-#define STB_IMAGE_IMPLEMENTATION
 #include <STB\stb_image.h>
+#include "glm\mat4x4.hpp"
+
+class Program;
+class Mesh;
 
 class Texture
 {
 public:
 	void Create();
 	void Destroy();
+
+	void Draw(glm::mat4 projectionView);
+
+private:
+	void CreateMesh();
+
+	Program* program;
+	Mesh* mesh;
+	unsigned int m_texture;
+	int height;
+	int width;
+	int format;
 };
 
 #endif

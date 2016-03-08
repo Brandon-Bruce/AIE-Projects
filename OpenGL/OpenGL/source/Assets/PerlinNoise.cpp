@@ -1,10 +1,11 @@
+#include "gl_core_4_4.h"
+#include "Program.h"
 #include "glm\ext.hpp"
 #include "glm\vec2.hpp"
 #include "glm\vec3.hpp"
 #include "glm\vec4.hpp"
 #include "PerlinNoise.h"
 #include "Vertex.h"
-#include "Program.h"
 #include "Mesh.h"
 
 using glm::vec2;
@@ -24,11 +25,14 @@ void PerlinNoise::LoadShader()
 							layout(location = 0) in vec4 Position; \
 							layout(location = 1) in vec2 TexCoord; \
 							uniform mat4 ProjectionView; \
+							uniform sampler2D PerlinTexture; \
 							out vec2 FragTexCoord; \
 							void main() \
 							{ \
+								vec4 pos = Position; \
+								pos.y += texture(PerlinTexture, TexCoord).r * 5; \
 								FragTexCoord = TexCoord; \
-								gl_Position = ProjectionView * Position; \
+								gl_Position = ProjectionView * pos; \
 							}";
 
 	const char* fsSource = "#version 410\n \
@@ -50,7 +54,7 @@ void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
 	float scale = GeneratePerlinNoise(rows, colums);
 
 	int vertexCount = rows * colums;
-	NoiseVertex* verticies = new NoiseVertex[vertexCount];
+	TexVertex* verticies = new TexVertex[vertexCount];
 
 
 	for (unsigned int r = 0; r < rows; ++r)
@@ -60,8 +64,10 @@ void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
 			unsigned int index = r * colums + c;
 			verticies[index].position = vec4((float)c, 0, (float)r, 1);
 
-			vec2 texCoord = (vec2(r, c) * scale) * 0.5f + 0.5f;
-			verticies[index].texcoord = vec2(r, c) * scale;
+			//vec2 texCoord = (vec2(r, c) * scale) * 0.5f + 0.5f;
+			const float xCoord = verticies[index].position.x / rows;
+			const float zCoord = verticies[index].position.z / colums;
+			verticies[index].texcoord = glm::vec2(xCoord, zCoord);
 		}
 	}
 
@@ -87,20 +93,33 @@ void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
 	}
 
 	mesh = new Mesh;
-	mesh->Create(indexCount, auiIndices, vertexCount * sizeof(NoiseVertex), nullptr, nullptr, verticies);
+	mesh->Create(indexCount, auiIndices, vertexCount * sizeof(TexVertex), nullptr, nullptr, verticies);
 }
 
 float PerlinNoise::GeneratePerlinNoise(unsigned int rows, unsigned int colums)
 {
 	float* perlinData = new float[rows * colums];
 	float scale = (1.0f / rows) * 3;
+	int octaves = 6;
 
 	for (unsigned int x = 0; x < rows; ++x)
 	{
 		for (unsigned int y = 0; y < colums; ++y)
 		{
-			unsigned int index = x * colums + y;
-			perlinData[index] = glm::perlin(vec2(x, y) * scale) * 0.5f + 0.5f;
+			float amplittude = 1.0f;
+			float persistance = 0.3f;
+
+			unsigned int index = y * colums + x;
+			perlinData[index] = 0;
+
+			for (int o = 0; o < octaves; ++o)
+			{
+				float freq = powf(2, (float)o);
+				float perlinSample =
+					glm::perlin(vec2((float)x, (float)y) * scale * freq) *0.5 + 0.5;
+				perlinData[index] += perlinSample * amplittude;
+				amplittude *= persistance;
+			}
 		}
 	}
 

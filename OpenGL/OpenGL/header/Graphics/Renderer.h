@@ -1,6 +1,7 @@
 #ifndef GRAPHICSMANAGER_H
 #define GRAPHICSMANAGER_H
 
+#include "Program.h"
 #include "glm\vec4.hpp"
 
 class Camera;

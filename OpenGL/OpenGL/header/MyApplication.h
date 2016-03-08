@@ -2,13 +2,13 @@
 #define MYAPPLICATION_H
 #define APPLICATION MyApplication::GetApplication()
 
-//#include "glm\vec4.hpp"
-//#include "GUI.h"
+#include "Renderer.h"
 
 class Renderer;
 class Grid;
 class FBXProgram;
 class PerlinNoise;
+class Texture;
 
 class MyApplication
 {
@@ -32,6 +32,8 @@ private:
 	FBXProgram* bunny;
 	//FBXProgram* dragon;
 	PerlinNoise* perlinNoise;
+
+	Texture* crate;
 
 	//GUI gui;
 	double lastFrameTime;
