@@ -23,6 +23,7 @@
     <ClCompile Include="dep\ImGUI\imgui.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="source\GameObjects\GameObject.cpp" />
     <ClCompile Include="source\Assets\PerlinNoise.cpp" />
     <ClCompile Include="source\Assets\FBXProgram.cpp" />
     <ClCompile Include="source\Assets\Program.cpp" />
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\STB\stb_image.h" />
+    <ClInclude Include="header\GameObjects\GameObject.h" />
     <ClInclude Include="header\Assets\FBXProgram.h" />
     <ClInclude Include="header\Assets\Vertex.h" />
     <ClInclude Include="header\Graphics\GUI.h" />
@@ -126,7 +128,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)dep\ImGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -160,7 +162,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)dep\ImGUI\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
