@@ -25,7 +25,10 @@ void FBXProgram::Startup(const char* fileName)
 							in vec4 vNormal; \
 							out vec4 FragColor; \
 							void main() { \
-							FragColor = vec4(1,1,1,1); }";
+							float d = max(0, \
+							dot( normalize(vNormal.xyz), \
+							vec3(0,1,0) ) ); \
+							FragColor = vec4(d,d,d,1); }";
 
 	Create(vsSource, fsSource);
 }

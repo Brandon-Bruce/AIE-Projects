@@ -64,7 +64,6 @@ void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
 			unsigned int index = r * colums + c;
 			verticies[index].position = vec4((float)c, 0, (float)r, 1);
 
-			//vec2 texCoord = (vec2(r, c) * scale) * 0.5f + 0.5f;
 			const float xCoord = verticies[index].position.x / rows;
 			const float zCoord = verticies[index].position.z / colums;
 			verticies[index].texcoord = glm::vec2(xCoord, zCoord);

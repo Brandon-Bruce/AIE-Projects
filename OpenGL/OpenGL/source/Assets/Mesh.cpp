@@ -95,7 +95,7 @@ void Mesh::SetUpVertexBuffers(TexVertex * noiseVerticies)
 		0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(TexVertex),
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TexVertex),
 		(void*)(sizeof(glm::vec4)));
 }
 
