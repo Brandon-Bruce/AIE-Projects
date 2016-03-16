@@ -4,6 +4,8 @@
 #include "FBX\FBXFile.h"
 #include "Mesh.h"
 #include "glm\ext.hpp"
+#include "AssetLoader.h"
+#include <string>
 
 void FBXProgram::Startup(const char* fileName)
 {
@@ -13,22 +15,9 @@ void FBXProgram::Startup(const char* fileName)
 	fbx->load(fileName);
 	CreateOpenGLBuffers();
 
-	const char* vsSource = "#version 410\n \
-							layout(location=0) in vec4 Position; \
-							layout(location=1) in vec4 Normal; \
-							out vec4 vNormal; \
-							uniform mat4 ProjectionView; \
-							void main() { vNormal = Normal; \
-							gl_Position = ProjectionView * Position; }";
+	std::string vsSource = AssetLoader::ReadFile("./data/FBXShaderVS.txt");
 
-	const char* fsSource = "#version 410\n \
-							in vec4 vNormal; \
-							out vec4 FragColor; \
-							void main() { \
-							float d = max(0, \
-							dot( normalize(vNormal.xyz), \
-							vec3(0,1,0) ) ); \
-							FragColor = vec4(d,d,d,1); }";
+	std::string fsSource = AssetLoader::ReadFile("./data/FBXShaderFS.txt");
 
 	Create(vsSource, fsSource);
 }
@@ -68,10 +57,12 @@ void FBXProgram::Draw(glm::mat4 projectionView)
 {
 	GLuint program = GetProgramID();
 	glUseProgram(program);
+	glGetError();
 
 	//bind camera
 	unsigned int loc = glGetUniformLocation(program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(projectionView));
+	glGetError();
 
 	//Bind vertex array object and draw mesh
 	for (unsigned int i = 0; i < fbx->getMeshCount(); ++i)
@@ -81,7 +72,9 @@ void FBXProgram::Draw(glm::mat4 projectionView)
 		Mesh* glData = (Mesh*)mesh->m_userData;
 
 		glBindVertexArray(glData->GetVAO());
+		glGetError();
 		glDrawElements(GL_TRIANGLES, (unsigned int)glData->GetIndexCount(),
 			GL_UNSIGNED_INT, 0);
+		glGetError();
 	}
 }

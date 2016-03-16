@@ -120,7 +120,7 @@ void MyApplication::Draw()
 	//grid->Draw(dt, lastFrameTime, projectionView);
 	perlinNoise->Draw(dt, lastFrameTime, projectionView);
 	crate->Draw(projectionView);
-	//bunny->Draw(projectionView);
+	bunny->Draw(projectionView);
 	//dragon->Draw(projectionView);
 	//test.Draw(dt, lastFrameTime);
 	//gui.Render();

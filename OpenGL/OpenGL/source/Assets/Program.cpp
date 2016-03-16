@@ -1,6 +1,12 @@
 #include "gl_core_4_4.h"
 #include "Program.h"
 #include <iostream>
+#include <string>
+
+void Program::Create(const std::string& pVertShader, const std::string& pFragShader)
+{
+	Create(pVertShader.c_str(), pFragShader.c_str());
+}
 
 void Program::Create(const char * pVertShader, const char * pFragShader)
 {
@@ -27,7 +33,7 @@ void Program::Create(const char * pVertShader, const char * pFragShader)
 	glDeleteShader(vertextShader);
 }
 
-bool Program::CheckCompileStatus(GLuint shaderId)
+bool Program::CheckCompileStatus(unsigned int shaderId)
 {
 	GLint result = GL_FALSE;
 	int logLength = 0;

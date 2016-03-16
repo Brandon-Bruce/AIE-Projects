@@ -1,9 +1,12 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
+#include <string>
+
 class Program
 {
 public:
+	void Create(const std::string& pVertShader, const std::string& pFragShader);
 	void Create(const char* pVertShader, const char* pFragShader);
 	unsigned int GetProgramID();
 	void CleanUp();

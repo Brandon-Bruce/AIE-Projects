@@ -1,19 +1,28 @@
 #include "AssetLoader.h"
 #include <fstream>
+#include <assert.h>
 
 using namespace std;
 
-std::string AssetLoader::ReadFile(const char * fileName)
+std::string AssetLoader::ReadFile(const char* fileName)
 {
-	string data;
-
+	string contents;
+	string line;
 	fstream file;
 	file.open(fileName, std::ios_base::in);
 
 	if (file.is_open())
 	{
-		//while(file.)
+		while (getline(file, line))
+		{
+			contents.append(line + '\n');
+		}
+		file.close();
+	}
+	else
+	{
+		assert(false);
 	}
 
-	return string();
+	return contents;
 }
