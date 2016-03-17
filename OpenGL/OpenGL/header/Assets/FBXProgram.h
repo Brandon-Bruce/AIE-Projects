@@ -9,7 +9,7 @@ class FBXFile;
 class FBXProgram : public Program
 {
 public:
-	void Startup(const char* fileName);
+	void Startup(const char* fileName, glm::mat4 position);
 	void CreateOpenGLBuffers();
 	void CleanUpOpenGLBuffers();
 

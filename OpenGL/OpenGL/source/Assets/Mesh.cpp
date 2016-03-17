@@ -86,6 +86,10 @@ void Mesh::SetUpVertexBuffers(FBXVertex* verticies)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(FBXVertex), 
 		((char*)0) + FBXVertex::NormalOffset);
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(FBXVertex),
+		((char*)0) + FBXVertex::TexCoord1Offset);
 }
 
 void Mesh::SetUpVertexBuffers(TexVertex * noiseVerticies)

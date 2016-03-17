@@ -6,6 +6,7 @@
 #include "glfw\glfw3.h"
 #include "PerlinNoise.h"
 #include "Texture.h"
+#include "glm\ext.hpp"
 
 #include <cstdio>
 
@@ -46,13 +47,14 @@ int MyApplication::Startup()
 	grid->LoadShader();
 	grid->GenerateGrid(64, 64);
 
-	bunny = new FBXProgram;
-	bunny->Startup("./data/Bunny.fbx");
+	soulSpear = new FBXProgram;
+	mat4 souldSpearPos = glm::translate(glm::vec3(10, 5, 2));
+	soulSpear->Startup("./data/SoulSpear/soulspear.fbx", souldSpearPos);
 
-	//dragon = new FBXProgram;
-	//mat4 dragonPos = mat4();
-	//dragonPos[3] = vec4(10, 10, 10, 0);
-	//dragon->Startup("./data/Dragon.fbx", dragonPos);
+	demoMan = new FBXProgram;
+	mat4 demoManPos = glm::translate(glm::vec3(50, 10, 5));
+	demoManPos *= glm::scale(glm::vec3(0.01f, 0.01f, 0.01f));
+	demoMan->Startup("./data/DemoMan/demolition.fbx", demoManPos);
 
 	perlinNoise = new PerlinNoise;
 	perlinNoise->Create(64, 64);
@@ -61,9 +63,6 @@ int MyApplication::Startup()
 	crate->Create();
 
 	printOpenGLError();
-
-	//test.LoadShader();
-	//test.GenerateGrid(10, 10);
 
 	lastFrameTime = glfwGetTime();
 	//gui.Startup(renderer->GetWindow());
@@ -75,11 +74,10 @@ int MyApplication::Startup()
 
 void MyApplication::Shutdown()
 {
-	//delete dragon;
-	bunny->CleanUp();
+	soulSpear->CleanUp();
 	crate->Destroy();
 	renderer->Shutdown();
-	delete bunny;
+	delete soulSpear;
 	delete crate;
 	delete renderer;
 }
@@ -120,7 +118,8 @@ void MyApplication::Draw()
 	//grid->Draw(dt, lastFrameTime, projectionView);
 	perlinNoise->Draw(dt, lastFrameTime, projectionView);
 	crate->Draw(projectionView);
-	bunny->Draw(projectionView);
+	soulSpear->Draw(projectionView);
+	demoMan->Draw(projectionView);
 	//dragon->Draw(projectionView);
 	//test.Draw(dt, lastFrameTime);
 	//gui.Render();

@@ -1,0 +1,13 @@
+#version 410
+in vec2 vTexCoord;
+in vec4 vNormal;
+out vec4 FragColor;
+uniform vec3 lightDirection;
+uniform vec3 lightColor;
+uniform sampler2D diffuse;
+void main()
+{
+vec4 texColor = texture(diffuse, vTexCoord);
+float d = max(0, dot(normalize(vNormal.xyz), lightDirection));
+FragColor = texColor * vec4(d,d,d,1) * vec4(lightColor,0);
+}

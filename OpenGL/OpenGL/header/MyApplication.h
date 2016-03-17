@@ -29,8 +29,8 @@ private:
 
 	Renderer* renderer;
 	Grid* grid;
-	FBXProgram* bunny;
-	//FBXProgram* dragon;
+	FBXProgram* soulSpear;
+	FBXProgram* demoMan;
 	PerlinNoise* perlinNoise;
 
 	Texture* crate;
