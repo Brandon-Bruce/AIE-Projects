@@ -1,0 +1,10 @@
+#version 410
+in vec4 Position;
+in vec4 Color;
+out Vec4 color;
+uniform mat4 projectionView;
+void main()
+{
+	color = Color;
+	gl_Position = projectionView * Position;
+}

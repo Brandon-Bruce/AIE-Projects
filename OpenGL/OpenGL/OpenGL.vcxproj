@@ -23,6 +23,7 @@
     <ClCompile Include="dep\ImGUI\imgui.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="source\Particles\ParticleEmitter.cpp" />
     <ClCompile Include="source\GameObjects\GameObject.cpp" />
     <ClCompile Include="source\Assets\PerlinNoise.cpp" />
     <ClCompile Include="source\Assets\FBXProgram.cpp" />
@@ -56,6 +57,8 @@
     <ClInclude Include="header\Assets\Program.h" />
     <ClInclude Include="header\Assets\PerlinNoise.h" />
     <ClInclude Include="header\Assets\Texture.h" />
+    <ClInclude Include="header\Particles\Particles.h" />
+    <ClInclude Include="header\Particles\ParticleEmitter.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76022712-AB56-4B15-9AE4-E8C7AECEBEDC}</ProjectGuid>
@@ -128,7 +131,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;$(ProjectDir)header\Particles\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -162,7 +165,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;$(ProjectDir)header\Particles\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
