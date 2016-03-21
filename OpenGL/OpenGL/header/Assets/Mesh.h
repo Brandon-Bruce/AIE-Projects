@@ -4,6 +4,7 @@
 struct Vertex;
 struct TexVertex;
 class FBXVertex;
+struct ParticleVertex;
 
 class Mesh
 {
@@ -13,14 +14,20 @@ public:
 	void Create(unsigned int indexCount, unsigned int* auiIndices, int vertexSize,
 		Vertex* aoVerticies = nullptr,
 		FBXVertex* fbxVerticies = nullptr,
-		TexVertex* noiseVerticies = nullptr);
+		TexVertex* noiseVerticies = nullptr,
+		ParticleVertex* particleVertices = nullptr);
 	void Destroy();
 
 private:
-	void SetUpVertixArrayObject(int vertexSize, Vertex* AoVerticies, FBXVertex* fbxVerticies, TexVertex* noiseVerticies);
+	void SetUpVertixArrayObject(int vertexSize,
+		Vertex* AoVerticies,
+		FBXVertex* fbxVerticies,
+		TexVertex* noiseVerticies,
+		ParticleVertex* particleVertices);
 	void SetUpVertexBuffers(Vertex* verticies);
 	void SetUpVertexBuffers(FBXVertex* verticies);
 	void SetUpVertexBuffers(TexVertex* noiseVerticies);
+	void SetUpVertexBuffers(ParticleVertex* particleVertices);
 
 	unsigned int m_VAO;
 	unsigned int m_VBO;

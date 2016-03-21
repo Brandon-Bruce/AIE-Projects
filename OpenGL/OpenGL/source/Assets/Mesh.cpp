@@ -1,6 +1,7 @@
 #include "gl_core_4_4.h"
 #include "Mesh.h"
 #include "Vertex.h"
+#include "Particles.h"
 #include "FBX\FBXFile.h"
 
 unsigned int Mesh::GetVAO()
@@ -16,7 +17,8 @@ unsigned int Mesh::GetIndexCount()
 void Mesh::Create(unsigned int indexCount, unsigned int* auiIndices, int vertexSize,
 	Vertex* aoVerticies,
 	FBXVertex* fbxVerticies,
-	TexVertex* noiseVerticies)
+	TexVertex* noiseVerticies,
+	ParticleVertex* particleVertices)
 {
 	this->indexCount = indexCount;
 
@@ -28,7 +30,7 @@ void Mesh::Create(unsigned int indexCount, unsigned int* auiIndices, int vertexS
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
 
-	SetUpVertixArrayObject(vertexSize, aoVerticies, fbxVerticies, noiseVerticies);
+	SetUpVertixArrayObject(vertexSize, aoVerticies, fbxVerticies, noiseVerticies, particleVertices);
 
 	//Bind buffers to a index array object
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
@@ -41,7 +43,11 @@ void Mesh::Create(unsigned int indexCount, unsigned int* auiIndices, int vertexS
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Mesh::SetUpVertixArrayObject(int vertexSize, Vertex* aoVerticies, FBXVertex* fbxVerticies, TexVertex* noiseVerticies)
+void Mesh::SetUpVertixArrayObject(int vertexSize,
+	Vertex* aoVerticies,
+	FBXVertex* fbxVerticies,
+	TexVertex* noiseVerticies,
+	ParticleVertex* particleVertices)
 {
 	//Set up Vertex Array Object
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
@@ -64,6 +70,12 @@ void Mesh::SetUpVertixArrayObject(int vertexSize, Vertex* aoVerticies, FBXVertex
 		glBufferData(GL_ARRAY_BUFFER, vertexSize,
 			noiseVerticies, GL_STATIC_DRAW);
 		SetUpVertexBuffers(noiseVerticies);
+	}
+	if (particleVertices != nullptr)
+	{
+		glBufferData(GL_ARRAY_BUFFER, vertexSize,
+			particleVertices, GL_DYNAMIC_DRAW);
+		SetUpVertexBuffers(particleVertices);
 	}
 }
 
@@ -101,6 +113,17 @@ void Mesh::SetUpVertexBuffers(TexVertex * noiseVerticies)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TexVertex),
 		(void*)(sizeof(glm::vec4)));
+}
+
+void Mesh::SetUpVertexBuffers(ParticleVertex * particleVertices)
+{
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleVertex),
+		0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleVertex),
+		((char*)0) + 16);
 }
 
 void Mesh::Destroy()

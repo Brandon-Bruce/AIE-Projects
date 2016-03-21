@@ -56,7 +56,6 @@ void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
 	int vertexCount = rows * colums;
 	TexVertex* verticies = new TexVertex[vertexCount];
 
-
 	for (unsigned int r = 0; r < rows; ++r)
 	{
 		for (unsigned int c = 0; c < colums; ++c)
