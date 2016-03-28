@@ -1,6 +1,7 @@
 #include "ParticleEmitter.h"
 #include "Particles.h"
 #include "Mesh.h"
+#include "glm\ext.hpp"
 
 ParticleEmitter::ParticleEmitter()
 	: particles(nullptr),
@@ -25,7 +26,7 @@ void ParticleEmitter::Initalise(unsigned int maxParticles,
 	//store variables passed in
 	this->maxParticles = maxParticles;
 	this->minLifeSpan = minLifeTime, this->maxLifeSpan = maxLifeTime;
-	this->minVelocity = minVelocity; this->maxVeocity = maxVelocity;
+	this->minVelocity = minVelocity; this->maxVelocity = maxVelocity;
 	this->startSize = startSize; this->endSize = endSize;
 	this->startColor = startColor; this->endColor = endColor;
 
@@ -57,10 +58,45 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::EmitParticles()
 {
+	//Only emit if there is a dead particle to use
+	if (firstDead >= maxParticles)
+		return;
+
+	//resurrect the first dead particle
+	Particle& particle = particles[firstDead++];
+
+	//assign its start position
+	particle.position = position;
+
+	//randomise its lifespan
+	particle.lifespan = 0;
+	particle.lifespan = (rand() / (float)RAND_MAX) *
+		(maxLifeSpan - minLifeSpan) + minLifeSpan;
+
+	//ste starting color and size
+	particle.color = startColor;
+	particle.size = startSize;
+
+	//randomize velocity direction and strength
+	float velocity = (rand() / (float)RAND_MAX) *
+		(maxVelocity - minVelocity) + minVelocity;
+	particle.velocity.x = (rand() / (float)RAND_MAX) * 2 - 1;
+	particle.velocity.y = (rand() / (float)RAND_MAX) * 2 - 1;
+	particle.velocity.z = (rand() / (float)RAND_MAX) * 2 - 1;
+	particle.velocity = glm::normalize(particle.velocity) *
+		velocity;
 }
 
-void ParticleEmitter::UpdateParticles()
+void ParticleEmitter::UpdateParticles(float deltaTime,
+	const glm::mat4& cameraTransform)
 {
+	//spawn particles
+	emitTimer += deltaTime;
+	while (emitTimer > emitRate)
+	{
+		EmitParticles();
+		emitTimer -= emitRate;
+	}
 }
 
 void ParticleEmitter::DrawParticles()

@@ -23,7 +23,8 @@ public:
 	~ParticleEmitter();
 
 	void EmitParticles();
-	void UpdateParticles();
+	void UpdateParticles(float deltaTime,
+		const glm::mat4& cameraTransform);
 	void DrawParticles();
 
 private:
@@ -46,7 +47,7 @@ private:
 	float maxLifeSpan;
 
 	float minVelocity;
-	float maxVeocity;
+	float maxVelocity;
 
 	float startSize;
 	float endSize;
