@@ -7,6 +7,7 @@
 #include "PerlinNoise.h"
 #include "Texture.h"
 #include "glm\ext.hpp"
+#include "ParticleEmitter.h"
 
 #include <cstdio>
 
@@ -62,6 +63,13 @@ int MyApplication::Startup()
 	crate = new Texture;
 	crate->Create();
 
+	emitter = new ParticleEmitter;
+	emitter->Initalise(1000, 500,
+		0.1f, 1.0f,
+		1, 5,
+		1, 0.1f,
+		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
+
 	printOpenGLError();
 
 	lastFrameTime = glfwGetTime();
@@ -107,6 +115,8 @@ int MyApplication::Update()
 	glfwPollEvents();
 
 	renderer->GetCamera()->Update(dt);
+
+	emitter->UpdateParticles(dt, renderer->GetCamera()->GetWorldTransform());
 	return 0;
 }
 
@@ -120,6 +130,7 @@ void MyApplication::Draw()
 	crate->Draw(projectionView);
 	soulSpear->Draw(projectionView);
 	demoMan->Draw(projectionView);
+	emitter->DrawParticles(projectionView);
 	//dragon->Draw(projectionView);
 	//test.Draw(dt, lastFrameTime);
 	//gui.Render();

@@ -1,7 +1,13 @@
+#include "gl_core_4_4.h"
 #include "ParticleEmitter.h"
 #include "Particles.h"
 #include "Mesh.h"
 #include "glm\ext.hpp"
+#include "Program.h"
+#include "AssetLoader.h"
+
+using glm::vec3;
+using glm::vec4;
 
 ParticleEmitter::ParticleEmitter()
 	: particles(nullptr),
@@ -42,9 +48,15 @@ void ParticleEmitter::Initalise(unsigned int maxParticles,
 	unsigned int indexCount = maxParticles * 6;
 	unsigned int* indexData = CreateIndexBuffer(indexCount);
 
-	mesh->Create(indexCount, indexData, vertexCount, nullptr, nullptr, nullptr, vertexData);
+	mesh->Create(indexCount, indexData, vertexCount * sizeof(ParticleVertex), nullptr, nullptr, nullptr, vertexData);
 
 	delete[] indexData;
+
+	std::string vsShader = AssetLoader::ReadFile("./data/Shaders/ParticleVS.txt");
+	std::string fsShader = AssetLoader::ReadFile("./data/Shaders/ParticleFS.txt");
+
+	program = new Program;
+	program->Create(vsShader, fsShader);
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -53,7 +65,9 @@ ParticleEmitter::~ParticleEmitter()
 	delete[] vertexData;
 
 	mesh->Destroy();
+	program->CleanUp();
 	delete mesh;
+	delete program;
 }
 
 void ParticleEmitter::EmitParticles()
@@ -69,11 +83,11 @@ void ParticleEmitter::EmitParticles()
 	particle.position = position;
 
 	//randomise its lifespan
-	particle.lifespan = 0;
+	particle.lifetime = 0;
 	particle.lifespan = (rand() / (float)RAND_MAX) *
 		(maxLifeSpan - minLifeSpan) + minLifeSpan;
 
-	//ste starting color and size
+	//set starting color and size
 	particle.color = startColor;
 	particle.size = startSize;
 
@@ -87,7 +101,7 @@ void ParticleEmitter::EmitParticles()
 		velocity;
 }
 
-void ParticleEmitter::UpdateParticles(float deltaTime,
+void ParticleEmitter::UpdateParticles(double deltaTime,
 	const glm::mat4& cameraTransform)
 {
 	//spawn particles
@@ -97,10 +111,90 @@ void ParticleEmitter::UpdateParticles(float deltaTime,
 		EmitParticles();
 		emitTimer -= emitRate;
 	}
+	unsigned int quad = 0;
+
+	//update particles and turn live paricles into billboard quads
+	for (unsigned int i = 0; i < firstDead; ++i)
+	{
+		Particle* particle = &particles[i];
+
+		particle->lifetime += deltaTime;
+		if (particle->lifetime >= particle->lifespan)
+		{
+			//swap last alive particle with this one
+			*particle = particles[firstDead - 1];
+			--firstDead;
+		}
+
+		if (i < firstDead)
+		{
+			//move particle
+			particle->position += particle->velocity * deltaTime;
+
+			//size particle
+			particle->size = glm::mix(startSize, endSize,
+				particle->lifetime / particle->lifespan);
+
+			//colour particle
+			particle->color = glm::mix(startColor, endColor,
+				particle->lifetime / particle->lifespan);
+
+			//make quad with correct size and colour
+			float halfSize = particle->size * 0.5f;
+
+			vertexData[quad * 4 + 0].position = vec4(halfSize,
+				halfSize, 0, 1);
+			vertexData[quad * 4 + 0].color = particle->color;
+
+			vertexData[quad * 4 + 1].position = vec4(-halfSize,
+				halfSize, 0, 1);
+			vertexData[quad * 4 + 1].color = particle->color;
+
+			vertexData[quad * 4 + 2].position = vec4(-halfSize,
+				-halfSize, 0, 1);
+			vertexData[quad * 4 + 2].color = particle->color;
+
+			vertexData[quad * 4 + 3].position = vec4(halfSize,
+				-halfSize, 0, 1);
+			vertexData[quad * 4 + 3].color = particle->color;
+
+			//create billboard transform
+			vec3 zAxis = glm::normalize(vec3(cameraTransform[3]) -
+				particle->position);
+			vec3 xAxis = glm::cross(vec3(cameraTransform[1]), zAxis);
+			vec3 yAxis = glm::cross(zAxis, xAxis);
+			glm::mat4 billboard(vec4(xAxis, 0),
+				vec4(yAxis, 0),
+				vec4(zAxis, 0),
+				vec4(0, 0, 0, 1));
+
+			for (int j = 0; j < 4; ++j)
+			{
+				vertexData[quad * 4 + j].position = billboard *
+					vertexData[quad * 4 + j].position +
+					vec4(particle->position, 0);
+			}
+			++quad;
+		}
+	}
 }
 
-void ParticleEmitter::DrawParticles()
+void ParticleEmitter::DrawParticles(const glm::mat4& cameraTransform)
 {
+	//set upprogram and projection view uniform
+	unsigned int programID = program->GetProgramID();
+	glUseProgram(programID);
+	int loc = glGetUniformLocation(programID, "projectionView");
+	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(cameraTransform));
+
+	//sync particle vertex buffer based on alive particles
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->GetVBO());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, firstDead * 4 *
+		sizeof(ParticleVertex), vertexData);
+
+	//draw particles
+	glBindVertexArray(mesh->GetVAO());
+	glDrawElements(GL_TRIANGLES, firstDead * 6, GL_UNSIGNED_INT, 0);
 }
 
 unsigned int* ParticleEmitter::CreateIndexBuffer(unsigned int indexCount)

@@ -14,12 +14,14 @@ public:
 
 private:
 	void LoadShader();
+	void GenTexture();
 	void GenerateMeshAndNoise(unsigned int rows, unsigned int colums);
 	float GeneratePerlinNoise(unsigned int rows, unsigned int colums);
 
 	Mesh* mesh;
 	Program* program;
 	unsigned int perlinTexture;
+	unsigned int diffuse;
 };
 
 #endif // !PERLINNOISE_H

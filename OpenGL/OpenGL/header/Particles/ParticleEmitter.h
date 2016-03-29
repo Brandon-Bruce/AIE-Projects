@@ -4,6 +4,7 @@
 #include <vector>
 #include "glm\vec3.hpp"
 #include "glm\vec4.hpp"
+#include "glm\mat4x4.hpp"
 
 struct Particle;
 struct ParticleVertex;
@@ -23,9 +24,9 @@ public:
 	~ParticleEmitter();
 
 	void EmitParticles();
-	void UpdateParticles(float deltaTime,
+	void UpdateParticles(double deltaTime,
 		const glm::mat4& cameraTransform);
-	void DrawParticles();
+	void DrawParticles(const glm::mat4& cameraTransform);
 
 private:
 	unsigned int* CreateIndexBuffer(unsigned int indexCount);
@@ -40,8 +41,8 @@ private:
 
 	glm::vec3 position;
 
-	float emitTimer;
-	float emitRate;
+	double emitTimer;
+	double emitRate;
 
 	float minLifeSpan;
 	float maxLifeSpan;

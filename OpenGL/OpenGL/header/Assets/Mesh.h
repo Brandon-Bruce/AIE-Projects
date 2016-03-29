@@ -10,6 +10,7 @@ class Mesh
 {
 public:
 	unsigned int GetVAO();
+	unsigned int GetVBO();
 	unsigned int GetIndexCount();
 	void Create(unsigned int indexCount, unsigned int* auiIndices, int vertexSize,
 		Vertex* aoVerticies = nullptr,

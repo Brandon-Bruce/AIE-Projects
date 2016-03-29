@@ -9,6 +9,11 @@ unsigned int Mesh::GetVAO()
 	return m_VAO;
 }
 
+unsigned int Mesh::GetVBO()
+{
+	return m_VBO;
+}
+
 unsigned int Mesh::GetIndexCount()
 {
 	return indexCount;

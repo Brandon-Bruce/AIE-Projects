@@ -10,8 +10,8 @@ struct Particle
 	glm::vec3 velocity;
 	glm::vec4 color;
 	float size;
-	float lifetime;
-	float lifespan;
+	double lifetime;
+	double lifespan;
 };
 
 struct ParticleVertex

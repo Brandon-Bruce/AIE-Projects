@@ -9,6 +9,7 @@ class Grid;
 class FBXProgram;
 class PerlinNoise;
 class Texture;
+class ParticleEmitter;
 
 class MyApplication
 {
@@ -32,6 +33,7 @@ private:
 	FBXProgram* soulSpear;
 	FBXProgram* demoMan;
 	PerlinNoise* perlinNoise;
+	ParticleEmitter* emitter;
 
 	Texture* crate;
 

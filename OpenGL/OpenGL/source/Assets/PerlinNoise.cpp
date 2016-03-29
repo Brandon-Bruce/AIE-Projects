@@ -16,6 +16,7 @@ void PerlinNoise::Create(unsigned int rows, unsigned int colums)
 {
 	LoadShader();
 	GenerateMeshAndNoise(rows, colums);
+	GenTexture();
 }
 
 void PerlinNoise::LoadShader()
@@ -27,6 +28,7 @@ void PerlinNoise::LoadShader()
 							uniform mat4 ProjectionView; \
 							uniform sampler2D PerlinTexture; \
 							out vec2 FragTexCoord; \
+							out float noise; \
 							void main() \
 							{ \
 								vec4 pos = Position; \
@@ -36,17 +38,23 @@ void PerlinNoise::LoadShader()
 							}";
 
 	const char* fsSource = "#version 410\n \
+							in float noise; \
 							in vec2 FragTexCoord; \
 							out vec4 Color; \
-							uniform sampler2D PerlinTexture; \
+							uniform sampler2D diffuse; \
 							void main() \
 							{ \
-								Color = texture(PerlinTexture, FragTexCoord).rrrr; \
+								Color = texture(diffuse, FragTexCoord) * r; \
 								Color.a = 1; \
 							}";
 
 	program = new Program;
 	program->Create(vsSource, fsSource);
+}
+
+void PerlinNoise::GenTexture()
+{
+
 }
 
 void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
