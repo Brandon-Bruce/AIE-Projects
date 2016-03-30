@@ -7,6 +7,7 @@
 #include "PerlinNoise.h"
 #include "Vertex.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 using glm::vec2;
 using glm::vec3;
@@ -34,17 +35,18 @@ void PerlinNoise::LoadShader()
 								vec4 pos = Position; \
 								pos.y += texture(PerlinTexture, TexCoord).r * 5; \
 								FragTexCoord = TexCoord; \
+								noise = pos.y; \
 								gl_Position = ProjectionView * pos; \
 							}";
 
 	const char* fsSource = "#version 410\n \
-							in float noise; \
 							in vec2 FragTexCoord; \
+							in float noise; \
 							out vec4 Color; \
 							uniform sampler2D diffuse; \
 							void main() \
 							{ \
-								Color = texture(diffuse, FragTexCoord) * r; \
+								Color = texture(diffuse, FragTexCoord) * (noise * 0.5f); \
 								Color.a = 1; \
 							}";
 
@@ -54,7 +56,17 @@ void PerlinNoise::LoadShader()
 
 void PerlinNoise::GenTexture()
 {
+	int height = 0, width = 0, format = 0;
 
+	unsigned char* texelData = stbi_load("./data/terrain.jpg", &width, &height, &format, STBI_default);
+
+	glGenTextures(1, &diffuse);
+	glBindTexture(GL_TEXTURE_2D, diffuse);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texelData);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(texelData);
 }
 
 void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
@@ -100,6 +112,8 @@ void PerlinNoise::GenerateMeshAndNoise(unsigned int rows, unsigned int colums)
 
 	mesh = new Mesh;
 	mesh->Create(indexCount, auiIndices, vertexCount * sizeof(TexVertex), nullptr, nullptr, verticies);
+
+	GenTexture();
 }
 
 float PerlinNoise::GeneratePerlinNoise(unsigned int rows, unsigned int colums)
@@ -122,7 +136,7 @@ float PerlinNoise::GeneratePerlinNoise(unsigned int rows, unsigned int colums)
 			{
 				float freq = powf(2, (float)o);
 				float perlinSample =
-					glm::perlin(vec2((float)x, (float)y) * scale * freq) *0.5 + 0.5;
+					glm::perlin(vec2((float)x, (float)y) * scale * freq) * 0.5f + 0.5f;
 				perlinData[index] += perlinSample * amplittude;
 				amplittude *= persistance;
 			}
@@ -144,6 +158,15 @@ float PerlinNoise::GeneratePerlinNoise(unsigned int rows, unsigned int colums)
 	return scale;
 }
 
+void PerlinNoise::Destroy()
+{
+	program->CleanUp();
+	mesh->Destroy();
+
+	delete program;
+	delete mesh;
+}
+
 void PerlinNoise::Draw(double deltatime, double time, glm::mat4 projectionView)
 {
 	GLuint m_programID = program->GetProgramID();
@@ -162,6 +185,13 @@ void PerlinNoise::Draw(double deltatime, double time, glm::mat4 projectionView)
 
 	loc = glGetUniformLocation(m_programID, "PerlinTexture");
 	glUniform1i(loc, 0);
+
+	//diffuse texture
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, diffuse);
+
+	loc = glGetUniformLocation(m_programID, "diffuse");
+	glUniform1i(loc, 1);
 
 	//bind verticies
 	glBindVertexArray(mesh->GetVAO());

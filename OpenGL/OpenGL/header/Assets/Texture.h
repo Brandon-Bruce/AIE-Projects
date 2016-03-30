@@ -10,7 +10,7 @@ class Mesh;
 class Texture
 {
 public:
-	void Create();
+	void Create(const char* filename);
 	void Destroy();
 
 	void Draw(glm::mat4 projectionView);

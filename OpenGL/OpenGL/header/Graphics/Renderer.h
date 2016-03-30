@@ -9,6 +9,7 @@ struct GLFWwindow;
 class Grid;
 class Program;
 class Mesh;
+class GUI;
 
 class Renderer
 {
@@ -16,7 +17,7 @@ public:
 	Renderer();
 	~Renderer();
 
-	int Startup();
+	int Startup(GUI* gui);
 	void Shutdown();
 	void BeginRender();
 	void EndRender();

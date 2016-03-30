@@ -2,13 +2,15 @@
 #include "glfw\glfw3.h"
 #include "glm\ext.hpp"
 #include "Renderer.h"
+#include "GUI.h"
 
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
 
-FlyCamera::FlyCamera() : speed(0.1f), rotationSpeed(1.0f)
+FlyCamera::FlyCamera(GUI* gui) : speed(0.1f), rotationSpeed(1.0f)
 {
+	this->gui = gui;
 	int windowHeight, windowWidth;
 	GLFWwindow* window = glfwGetCurrentContext();
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
@@ -51,7 +53,7 @@ void FlyCamera::Update(double deltaTime)
 		worldTransform[3] += up * speed;
 
 	//calculate delta mouse movement
-	if (glfwGetMouseButton(window, 0) == GLFW_PRESS)
+	if (glfwGetMouseButton(window, 1) == GLFW_PRESS)
 	{
 		double mouseX = 0, mouseY = 0;
 		glfwGetCursorPos(window, &mouseX, &mouseY);
@@ -81,7 +83,8 @@ void FlyCamera::Update(double deltaTime)
 	}
 }
 
-void FlyCamera::SetSpeed(float speed)
+void FlyCamera::SetSpeed()
 {
-	this->speed = speed;
+	//GUI to set speed
+	gui->AddElement("Camer Speed", &speed);
 }

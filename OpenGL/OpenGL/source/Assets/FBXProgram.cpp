@@ -6,10 +6,15 @@
 #include "glm\ext.hpp"
 #include "glm\vec3.hpp"
 #include "AssetLoader.h"
+#include "Sphere.h"
 #include <string>
+#include <vector>
 
-void FBXProgram::Startup(const char* fileName, glm::mat4 position)
+void FBXProgram::Startup(const char* fileName, glm::mat4 position,
+	char* name, float scale)
 {
+	this->scale = scale;
+	this->name = name;
 	this->position = position;
 
 	fbx = new FBXFile();
@@ -26,6 +31,7 @@ void FBXProgram::Startup(const char* fileName, glm::mat4 position)
 
 void FBXProgram::CreateOpenGLBuffers()
 {
+	std::vector<glm::vec3> points;
 	//Create openGL VAO,VBO/IBO data
 	for (unsigned int i = 0; i < fbx->getMeshCount(); ++i)
 	{
@@ -35,12 +41,23 @@ void FBXProgram::CreateOpenGLBuffers()
 		Mesh* glData = new Mesh;
 		unsigned int indexSize = mesh->m_indices.size();
 		unsigned int vertexSize = mesh->m_vertices.size() * sizeof(FBXVertex);
+		FBXVertex* vertices = mesh->m_vertices.data();
 
 		glData->Create(indexSize, mesh->m_indices.data(),
-			vertexSize, nullptr, mesh->m_vertices.data());
+			vertexSize, nullptr, vertices);
+
+		unsigned int vertexCount = mesh->m_vertices.size();
+		//collect data for sphere collider
+		for (unsigned int i = 0; i < vertexCount; ++i)
+		{
+			points.push_back((glm::vec3)vertices[i].position);
+		}
 
 		mesh->m_userData = glData;
 	}
+
+	collider = new SphereCollider;
+	collider->Set(points, scale);
 }
 
 void FBXProgram::CleanUpOpenGLBuffers()
@@ -55,8 +72,13 @@ void FBXProgram::CleanUpOpenGLBuffers()
 	}
 }
 
-void FBXProgram::Draw(glm::mat4 projectionView)
+void FBXProgram::Draw(glm::mat4 projectionView, Camera* camera)
 {
+	//Frustrum culling
+	collider->Update((glm::vec3)position[3]);
+	if (CollisionDetection::DetectCollision(collider, camera, name) == false)
+		return;
+
 	GLuint program = GetProgramID();
 	glUseProgram(program);
 

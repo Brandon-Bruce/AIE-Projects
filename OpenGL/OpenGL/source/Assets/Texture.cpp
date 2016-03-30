@@ -9,11 +9,11 @@
 using glm::vec4;
 using glm::vec2;
 
-void Texture::Create()
+void Texture::Create(const char* filename)
 {
 	height = 0; width = 0; format = 0;
 
-	unsigned char* texelData = stbi_load("./data/crate.png", &width, &height, &format, STBI_default);
+	unsigned char* texelData = stbi_load(filename, &width, &height, &format, STBI_default);
 
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
@@ -59,27 +59,22 @@ void Texture::Draw(glm::mat4 projectionView)
 	//use program
 	unsigned int programID = program->GetProgramID();
 	glUseProgram(programID);
-	glGetError();
 
 	//bind camera
 	int loc = glGetUniformLocation(programID, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(projectionView));
-	glGetError();
 
 	//set texture slot
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glGetError();
 
 	//tell shader texture location
 	loc = glGetUniformLocation(programID, "Diffuse");
 	glUniform1i(loc, 0);
-	glGetError();
 
 	//draw
 	glBindVertexArray(mesh->GetVAO());
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-	glGetError();
 }
 
 void Texture::CreateMesh()

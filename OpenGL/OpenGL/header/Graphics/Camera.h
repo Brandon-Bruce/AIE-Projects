@@ -10,13 +10,14 @@ public:
 	Camera();
 	~Camera();
 	virtual void Update(double deltaTime) = 0;
-	void SetPerspective(float fieldOfView, float aspectRatio, float near, float far);
+	void SetPerspective(float fieldOfView, float aspectRatio, float _near, float _far);
 	void SetLookAt(glm::vec3 from, glm::vec3 to, glm::vec3 up);
 	void SetPosition(glm::vec3 position);
 	glm::mat4 GetWorldTransform();
 	glm::mat4 GetView();
 	glm::mat4 GetProjection();
 	glm::mat4 GetProjectionView();
+	glm::vec4* GetFrustrumPlanes();
 
 protected:
 

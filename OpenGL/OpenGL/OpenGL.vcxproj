@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
+    <ClCompile Include="source\Collisions\CollisionDetection.cpp" />
+    <ClCompile Include="source\Collisions\AABB.cpp" />
     <ClCompile Include="dep\aieutilities\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="dep\ImGUI\imgui.cpp" />
     <ClCompile Include="dep\ImGUI\imgui_demo.cpp" />
@@ -39,8 +42,12 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MyApplication.cpp" />
     <ClCompile Include="source\Assets\Texture.cpp" />
+    <ClCompile Include="source\Collisions\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dep\aieutilities\Gizmos.h" />
+    <ClInclude Include="header\Collisions\CollisionDetection.h" />
+    <ClInclude Include="header\Collisions\AABB.h" />
     <ClInclude Include="dep\STB\stb_image.h" />
     <ClInclude Include="header\GameObjects\GameObject.h" />
     <ClInclude Include="header\Assets\FBXProgram.h" />
@@ -59,6 +66,7 @@
     <ClInclude Include="header\Assets\Texture.h" />
     <ClInclude Include="header\Particles\Particles.h" />
     <ClInclude Include="header\Particles\ParticleEmitter.h" />
+    <ClInclude Include="header\Collisions\Sphere.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76022712-AB56-4B15-9AE4-E8C7AECEBEDC}</ProjectGuid>
@@ -131,7 +139,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;$(ProjectDir)header\Particles\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;$(ProjectDir)header\Particles\;$(ProjectDir)header\Collisions\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -165,7 +173,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;$(ProjectDir)header\Particles\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)header\;$(ProjectDir)dep\;$(ProjectDir)dep\ImGUI\;$(ProjectDir)header\Graphics\;$(ProjectDir)header\Assets\;$(ProjectDir)header\GameObjects\;$(ProjectDir)header\Particles\;$(ProjectDir)header\Collisions\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>

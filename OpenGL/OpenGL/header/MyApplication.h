@@ -10,6 +10,7 @@ class FBXProgram;
 class PerlinNoise;
 class Texture;
 class ParticleEmitter;
+class GUI;
 
 class MyApplication
 {
@@ -36,8 +37,7 @@ private:
 	ParticleEmitter* emitter;
 
 	Texture* crate;
-
-	//GUI gui;
+	GUI* gui;
 	double lastFrameTime;
 	double dt;
 };

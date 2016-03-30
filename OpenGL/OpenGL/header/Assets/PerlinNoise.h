@@ -11,6 +11,7 @@ class PerlinNoise
 public:
 	void Create(unsigned int rows, unsigned int colums);
 	void Draw(double deltatime, double time, glm::mat4 projectionView);
+	void Destroy();
 
 private:
 	void LoadShader();

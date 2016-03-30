@@ -2,6 +2,7 @@
 #include "glfw\glfw3.h"
 #include "ImGUI\imgui.h"
 #include "aieutilities\imgui_impl_glfw_gl3.h"
+#include "glm\ext.hpp"
 
 void GUI::Startup(GLFWwindow* window)
 {
@@ -26,9 +27,19 @@ void GUI::BeginRender()
 	ImGui_ImplGlfwGL3_NewFrame();
 }
 
-void GUI::AddElement(char* name, float col[3])
+void GUI::AddElement(char* name, glm::vec3& var)
 {
-	ImGui::ColorEdit3(name, col);
+	ImGui::InputFloat3("Position", glm::value_ptr(var));
+}
+
+void GUI::AddElement(char * name, glm::vec4& var)
+{
+	ImGui::ColorEdit4(name, glm::value_ptr(var));
+}
+
+void GUI::AddElement(char * name, float * var)
+{
+	ImGui::InputFloat(name, var);
 }
 
 void GUI::EndRender()

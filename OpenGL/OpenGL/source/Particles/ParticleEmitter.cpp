@@ -1,10 +1,12 @@
 #include "gl_core_4_4.h"
+#include "glfw\glfw3.h"
 #include "ParticleEmitter.h"
 #include "Particles.h"
 #include "Mesh.h"
 #include "glm\ext.hpp"
 #include "Program.h"
 #include "AssetLoader.h"
+#include "GUI.h"
 
 using glm::vec3;
 using glm::vec4;
@@ -24,7 +26,8 @@ void ParticleEmitter::Initalise(unsigned int maxParticles,
 	float minLifeTime, float maxLifeTime,
 	float minVelocity, float maxVelocity,
 	float startSize, float endSize,
-	const glm::vec4& startColor, const glm::vec4& endColor)
+	const glm::vec4& startColor, const glm::vec4& endColor,
+	GUI* gui)
 {
 	//Set up emit timer
 	this->emitTimer = 0; this->emitRate = 1.0f / emitRate;
@@ -57,6 +60,8 @@ void ParticleEmitter::Initalise(unsigned int maxParticles,
 
 	program = new Program;
 	program->Create(vsShader, fsShader);
+
+	this->gui = gui;
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -105,8 +110,9 @@ void ParticleEmitter::UpdateParticles(double deltaTime,
 	const glm::mat4& cameraTransform)
 {
 	//spawn particles
-	emitTimer += deltaTime;
-	while (emitTimer > emitRate)
+	emitTimer += (float)deltaTime;
+	while (emitTimer > emitRate &&
+		emitRate > 0)
 	{
 		EmitParticles();
 		emitTimer -= emitRate;
@@ -118,7 +124,7 @@ void ParticleEmitter::UpdateParticles(double deltaTime,
 	{
 		Particle* particle = &particles[i];
 
-		particle->lifetime += deltaTime;
+		particle->lifetime += (float)deltaTime;
 		if (particle->lifetime >= particle->lifespan)
 		{
 			//swap last alive particle with this one
@@ -195,6 +201,8 @@ void ParticleEmitter::DrawParticles(const glm::mat4& cameraTransform)
 	//draw particles
 	glBindVertexArray(mesh->GetVAO());
 	glDrawElements(GL_TRIANGLES, firstDead * 6, GL_UNSIGNED_INT, 0);
+
+	GUIRender();
 }
 
 unsigned int* ParticleEmitter::CreateIndexBuffer(unsigned int indexCount)
@@ -212,4 +220,18 @@ unsigned int* ParticleEmitter::CreateIndexBuffer(unsigned int indexCount)
 	}
 
 	return indexData;
+}
+
+void ParticleEmitter::GUIRender()
+{
+	gui->AddElement("Position", position);
+	gui->AddElement("Emit Rate", &emitRate);
+	gui->AddElement("Min Life Span", &minLifeSpan);
+	gui->AddElement("Max Life Span", &maxLifeSpan);
+	gui->AddElement("Min Velocity", &minVelocity);
+	gui->AddElement("Max Velocity", &maxVelocity);
+	gui->AddElement("Start Size", &startSize);
+	gui->AddElement("End Size", &endSize);
+	gui->AddElement("Start Colour", startColor);
+	gui->AddElement("End Colour", endColor);
 }

@@ -10,6 +10,7 @@ struct Particle;
 struct ParticleVertex;
 class Mesh;
 class Program;
+class GUI;
 
 class ParticleEmitter
 {
@@ -20,7 +21,8 @@ public:
 		float minLifeTime, float maxLifeTime,
 		float minVelocity, float maxVelocity,
 		float startSize, float endSize,
-		const glm::vec4& startColor, const glm::vec4& endColor);
+		const glm::vec4& startColor, const glm::vec4& endColor,
+		GUI* gui);
 	~ParticleEmitter();
 
 	void EmitParticles();
@@ -30,6 +32,7 @@ public:
 
 private:
 	unsigned int* CreateIndexBuffer(unsigned int indexCount);
+	void GUIRender();
 
 	Particle* particles;
 	unsigned int firstDead;
@@ -41,8 +44,8 @@ private:
 
 	glm::vec3 position;
 
-	double emitTimer;
-	double emitRate;
+	float emitTimer;
+	float emitRate;
 
 	float minLifeSpan;
 	float maxLifeSpan;
@@ -55,6 +58,8 @@ private:
 
 	glm::vec4 startColor;
 	glm::vec4 endColor;
+
+	GUI* gui;
 };
 
 #endif

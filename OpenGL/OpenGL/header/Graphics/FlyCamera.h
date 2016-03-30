@@ -3,21 +3,23 @@
 
 #include "Camera.h"
 
+class GUI;
+
 class FlyCamera : public Camera
 {
 public:
-	FlyCamera();
+	FlyCamera(GUI* gui);
 	~FlyCamera();
 
 	void Update(double deltaTime);
-	void SetSpeed(float speed);
+	void SetSpeed();
 
 private:
 	float speed;
 	double prevMousePosX;
 	double prevMousePosY;
 	float rotationSpeed;
-	//bool mouseDown;
+	GUI* gui;
 };
 
 #endif // !FLYCAMERA_H
